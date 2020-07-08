@@ -22,8 +22,10 @@ GAUSSIAN_TRUNCATE = 1.0
 N_LANDMARKS = 19
 
 
-def get_annots_for_image(annotations_path, image_path, rescaled_image_size=None,
-                         orig_image_size=np.array([ORIG_IMAGE_X, ORIG_IMAGE_Y])):
+def get_annots_for_image(annotations_path, image_path, rescaled_image_size=None, orig_image_size=np.array([ORIG_IMAGE_X, ORIG_IMAGE_Y])):
+    '''
+    Gets all the annations of an image and return in a simple array format of [[x1,y1], [x2,y2], ...] 
+    '''
     image_id = image_path.stem
     annots = (annotations_path / f'{image_id}.txt').read_text()
     annots = annots.split('\n')[:N_LANDMARKS]
@@ -33,7 +35,7 @@ def get_annots_for_image(annotations_path, image_path, rescaled_image_size=None,
     if rescaled_image_size is not None:
         scale = np.array([rescaled_image_size, rescaled_image_size], dtype=float) / orig_image_size  # WxH
         annots = np.around(annots * scale).astype('int32')
-    return annots  # [[x1,y1], [x2,y2], ...]
+    return annots  
 
 
 def create_true_heatmaps(annots, image_size, amplitude):
@@ -45,8 +47,9 @@ def create_true_heatmaps(annots, image_size, amplitude):
 
 
 def reset_heatmap_maximum(heatmap, amplitude):
-    '''Heatmap maximum value is not equal to the amplitude after the transformation.
-       We zero the heatmap and set it to the amplitude at the new maximum position.
+    '''
+    Heatmap maximum value is not equal to the amplitude after the transformation.
+    We zero the heatmap and set it to the amplitude at the new maximum position.
     '''
     ind = np.unravel_index(np.argmax(heatmap, axis=None), heatmap.shape)
     heatmap[:] = 0
@@ -76,6 +79,8 @@ class LandmarkDataset(Dataset):
 
     def __getitem__(self, idx):
         # So that each thread has a different transform when multiprocessing
+        
+        # With the seed reset (every time), the same set of numbers will appear every time.
         seed = int(random.random() * 10000000)
         np.random.seed(seed)
 
@@ -83,6 +88,8 @@ class LandmarkDataset(Dataset):
         x = PIL.Image.open(self.image_fnames[idx]).convert('L')
         image_size = x.size[0]
         x = np.array(x)
+        
+        #Since we have converted the image to one color frame, we do not need to move any axis.
         # x = np.moveaxis(x, -1, 0)
 
         if self.affine_trans is not None:
@@ -127,8 +134,8 @@ class LandmarkDataset(Dataset):
 
             if self.elastic_trans is not None and do_elastic:
                 for i in range(y.shape[0]):
-                    y[i] = ndimage.interpolation.map_coordinates(y[i], elastic_trans_coordinates, order=1).reshape(
-                        y[i].shape)
+                    # Multi-dimensional image processing (scipy.ndimage)
+                    y[i] = ndimage.interpolation.map_coordinates(y[i], elastic_trans_coordinates, order=1).reshape(y[i].shape)
                     y[i] = reset_heatmap_maximum(y[i], self.gauss_amplitude)
 
             if self.affine_trans is not None and do_affine:
@@ -171,7 +178,7 @@ def get_max_heatmap_activation(tensor, gauss_sigma):
     return max_val, max_pos
 
 
-def radial_errors_example(pred, targ, gauss_sigma, orig_image_x=ORIG_IMAGE_X, orig_image_y=ORIG_IMAGE_Y):
+def radial_errors_calcalation(pred, targ, gauss_sigma, orig_image_x=ORIG_IMAGE_X, orig_image_y=ORIG_IMAGE_Y):
     example_radial_errors = np.zeros(N_LANDMARKS)
     heatmap_y, heatmap_x = pred.shape[1:]
     for i in range(N_LANDMARKS):
@@ -191,5 +198,5 @@ def radial_errors_batch(preds, targs, gauss_sigma):
     batch_size = preds.shape[0]
     batch_radial_errors = np.zeros((batch_size, N_LANDMARKS))
     for i in range(batch_size):
-        batch_radial_errors[i] = radial_errors_example(preds[i], targs[i], gauss_sigma)
+        batch_radial_errors[i] = radial_errors_calcalation(preds[i], targs[i], gauss_sigma)
     return batch_radial_errors

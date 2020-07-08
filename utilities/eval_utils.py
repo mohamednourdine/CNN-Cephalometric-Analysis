@@ -19,7 +19,8 @@ from .common_utils import *
 
 
 def get_true_landmarks(annotations_path, image_path):
-    ''' Returns an array of true landmarks for an image
+    ''' 
+    Returns an array of true landmarks for an image, and return an array of the results
     '''
     image_id = image_path.stem
     annots = (annotations_path / f'{image_id}.txt').read_text()
@@ -33,20 +34,23 @@ FILE_COL = 'file'
 
 
 def read_prediction_files_as_df(prediction_files):
-    ''' Reads individual prediction files as dataframes and then concatenates them into a single dataframe with all predictions for all images and samples.
+    ''' 
+    Reads individual prediction files as dataframes and then concatenates them into a single dataframe 
+    with all predictions for all images and samples.
     '''
-    dfs = []
+    dataframes = []
     for f in prediction_files:
-        dfs.append(pd.read_csv(f))
-    df = pd.concat(dfs, ignore_index=True)
+        dataframes.append(pd.read_csv(f))
+    df = pd.concat(dataframes, ignore_index=True)
     df.sort_values(FILE_COL, inplace=True)
     df.reset_index(drop=True, inplace=True)
     return df
 
 
 def get_predictions_for_image(df, image_file, n_samples):
-    ''' Extracts all of the landmark position and activations samples for the given image from the dataframe
-        Returns them as numpy arrays.
+    ''' 
+    Extracts all of the landmark position and activations samples for the given image from the dataframe
+    and the returns them as numpy arrays.
     '''
     image_df = df.loc[df[FILE_COL] == image_file]
     image_df.reset_index(drop=True, inplace=True)
@@ -76,7 +80,8 @@ def get_landmark_prediction_variance(lm_samples):
 
 
 def get_predicted_landmarks_for_image(landmark_samples):
-    ''' Returns the average predicted landmark positions in term of samples and their variance computed
+    ''' 
+        Returns the average predicted landmark positions in term of samples and their variance computed
         as the mean distance between landmarks and the mean landmark.
         Takes an array of dimension (n_samples, n_landmarks, 2).
     '''
@@ -95,13 +100,17 @@ def get_predicted_activations_for_image(activation_samples):
 
 
 def radial_error_mm(true, pred):
-    ''' Returns the radial error in mms for a single landmark.
+    ''' 
+    Returns the radial error in mms for a single landmark.
+    The radial error is the distance between the desired point of impact and actual point of impact, 
+    both points projected and measured on an imaginary plane drawn perpendicular to the flight path of the munition.
     '''
     return np.linalg.norm(pred / PIXELS_PER_MM - true / PIXELS_PER_MM)
 
 
 def get_radial_errors_mm_for_image(true_landmarks, predicted_landmarks):
-    ''' Returns an array containing the radial error for each landmark for the image.
+    ''' 
+        Returns an array containing the radial error for each landmark for the image.
     '''
     radial_errors = np.zeros(N_LANDMARKS)
     for lm in range(N_LANDMARKS):
@@ -110,7 +119,9 @@ def get_radial_errors_mm_for_image(true_landmarks, predicted_landmarks):
 
 
 def get_accuracy_metrics(radial_errors_mm_all):
-    ''' Computes accuracy metrics from radial errors.
+    ''' 
+    This fucntiuon Computes the accuracy metrics from radial errors by getting the mean and standard deviation of the 
+    results obtaine. This results then compaire to the actial values and printed out.
     '''
     mre = radial_errors_mm_all.mean()
     std = radial_errors_mm_all.std()
@@ -125,16 +136,21 @@ def get_accuracy_metrics(radial_errors_mm_all):
             'sdr_3': sdr_3, 'sdr_4': sdr_4}
 
 
-def print_accuracy_metrics(m):
-    print(f"MRE: {m['mre']:{4}.{4}} mm, STD: {m['std']:{4}.{4}} mm\
-           \nSDR 2mm: {m['sdr_2']:{4}.{4}}\
-           \nSDR 2.5mm: {m['sdr_2_5']:{4}.{4}}\
-           \nSDR 3mm: {m['sdr_3']:{4}.{4}}\
-           \nSDR 4mm: {m['sdr_4']:{4}.{4}}")
+def print_accuracy_metrics(result):
+    '''
+    Success Detection Rate gives the percentage of predictions within that radius of the ground truth.
+    '''
+    print(f"Mean Root Error (MRE): {result['mre']:{4}.{4}} mm, Standard Deviation (STD): {result['std']:{4}.{4}} mm\
+           \nSuccess Detection Rate\
+           \nSDR 2mm: {result['sdr_2']:{4}.{4}}\
+           \nSDR 2.5mm: {result['sdr_2_5']:{4}.{4}}\
+           \nSDR 3mm: {result['sdr_3']:{4}.{4}}\
+           \nSDR 4mm: {result['sdr_4']:{4}.{4}}")
 
 
 def log_metrics(metrics, metrics_dir, n_samples):
-    ''' Logs the computed metrics to a csv file in the metrics subdirectory of the log directory for the model.
+    ''' 
+    Logs the computed metrics to a csv file in the metrics subdirectory of the log directory for the model.
     '''
     metrics['samples'] = n_samples
     metrics_df = pd.DataFrame(data=metrics, index=[0])
@@ -142,7 +158,9 @@ def log_metrics(metrics, metrics_dir, n_samples):
 
 
 def get_test_predictions_df(model_log_dir):
-    """ Load computed model predictions
+    """ 
+    Load computed model predictions, this function simple reads all the prediction files and return a dataframe of all
+    the predictions files.
     """
     prediction_dir = model_log_dir / 'predictions'
     prediction_files = list_files(prediction_dir)

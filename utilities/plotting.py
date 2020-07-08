@@ -12,8 +12,7 @@ from .landmark_utils import *
 
 
 def draw_outline(o, lw):
-    o.set_path_effects([patheffects.Stroke(
-        linewidth=lw, foreground='black'), patheffects.Normal()])
+    o.set_path_effects([patheffects.Stroke(linewidth=lw, foreground='black'), patheffects.Normal()])
 
 
 def draw_text(ax, pos, label, fontsize, color='#00CC00', outline=2):
@@ -29,7 +28,8 @@ def denorm(tensor_im):
 
 
 def plot_imgs(imgs, labels=None):
-    """ Plots tensor images with annotations.
+    """ 
+    Plots tensor images with annotations.
     """
     # Draw skull with landmarks
     fig, axes = plt.subplots(6, len(imgs) // 6, figsize=(30, 20))
@@ -42,8 +42,16 @@ def plot_imgs(imgs, labels=None):
     plt.tight_layout()
 
 
+def draw_annot(ax, pos, label, radius=40, fontsize=18, color='red', marker='x', alpha=1.0):
+    if marker is not None:
+        ax.scatter(pos[0], pos[1], s=radius, c=color, marker=marker, alpha=alpha)
+    if label is not None:
+        draw_text(ax, pos, label, fontsize, color=color)
+        
+        
 def plot_img_with_heatmaps(img, heatmaps, gaussian_sigma):
-    """ Plots tensor images with annotations.
+    """ 
+    Plots tensor images with annotations.
     """
     # Draw skull with landmarks
     skull_fig, ax = plt.subplots(1, 1, figsize=(8, 8), frameon=False)
@@ -70,9 +78,3 @@ def plot_img_with_heatmaps(img, heatmaps, gaussian_sigma):
     return skull_fig
 
 
-def draw_annot(ax, pos, label, radius=40, fontsize=18,
-               color='red', marker='x', alpha=1.0):
-    if marker is not None:
-        ax.scatter(pos[0], pos[1], s=radius, c=color, marker=marker, alpha=alpha)
-    if label is not None:
-        draw_text(ax, pos, label, fontsize, color=color)

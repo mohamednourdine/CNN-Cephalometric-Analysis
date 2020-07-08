@@ -2,7 +2,7 @@ from pathlib import Path
 import numpy as np
 from scipy import ndimage
 
-# Cephallometry dataset properties
+# Here are the Cephallometry dataset properties set prior the trainig process
 ORIG_IMAGE_X = 1935
 ORIG_IMAGE_Y = 2400
 PIXELS_PER_MM = 10
@@ -12,7 +12,7 @@ N_LANDMARKS = 19
 def list_files(dir_path):
     return sorted(list(dir_path.iterdir()))
 
-
+# NRI
 def get_elastic_transform_coordinates(im, sigma=8.0, alpha=15.0, random_state=None):
     if random_state is None:
         random_state = np.random.RandomState(None)
@@ -102,7 +102,10 @@ class AffineTransform():
 
         return np.linalg.multi_dot([tr_fw, rot_scale, tr_bk, transl])
 
+    '''
+    using the affine matrix function obtained from the function about, we derive the matrix after extracting all the parameters need
+    '''
     def get_matrix(self, array, heatmap=False):
         angle, scale, tx, ty = self.get_params(self.angle, self.scales, self.tx, self.ty, array.shape)
-        m = self.get_affine_matrix(angle, scale, tx, ty, array.shape)
-        return m
+        matrix = self.get_affine_matrix(angle, scale, tx, ty, array.shape)
+        return matrix

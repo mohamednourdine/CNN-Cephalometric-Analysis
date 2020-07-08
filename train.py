@@ -19,21 +19,18 @@ from utilities.plotting import *
 from model import UNet
 
 ORIG_IMAGE_SIZE = np.array([ORIG_IMAGE_X, ORIG_IMAGE_Y])  # WxH
+random_id = int(random.uniform(0, 99999999))
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--DATA_PATH', type=str, default='./data', help='Root path to the data.')
-parser.add_argument('--MODEL_PATH', type=str, default='./trained',
-                    help='Path where the model checkpoints will be saved.')
-random_id = int(random.uniform(0, 99999999))
+parser.add_argument('--MODEL_PATH', type=str, default='./trained', help='Path where the model checkpoints will be saved.')
+
 parser.add_argument('--MODEL_NAME', type=str, default=f'model_{random_id}')
 parser.add_argument('--EXPERIMENT_NAME', type=str, default=f'exp_{random_id}')
 parser.add_argument('--MODEL', type=str, default='unet')
-parser.add_argument('--FILTERS', type=lambda layers: [int(layer) for layer in layers.split(',')],
-                    default='64,128,256,512,1024')
-parser.add_argument('--DOWN_DROP', type=lambda layers: [float(layer) for layer in layers.split(',')],
-                    default='0.4,0.4,0.4,0.4')
-parser.add_argument('--UP_DROP', type=lambda layers: [float(layer) for layer in layers.split(',')],
-                    default='0.4,0.4,0.4,0.4')
+parser.add_argument('--FILTERS', type=lambda layers: [int(layer) for layer in layers.split(',')], default='64,128,256,512,1024')
+parser.add_argument('--DOWN_DROP', type=lambda layers: [float(layer) for layer in layers.split(',')], default='0.4,0.4,0.4,0.4')
+parser.add_argument('--UP_DROP', type=lambda layers: [float(layer) for layer in layers.split(',')], default='0.4,0.4,0.4,0.4')
 parser.add_argument('--BATCH_SIZE', type=int, default=8)
 parser.add_argument('--IMAGE_SIZE', type=int, default=128)
 parser.add_argument('--GAUSS_SIGMA', type=float, default=5.0)
@@ -46,11 +43,10 @@ parser.add_argument('--ELASTIC_ALPHA', type=float, default=15.0)
 parser.add_argument('--LEARN_RATE', type=float, default=1e-3)
 parser.add_argument('--WEIGHT_DECAY', type=float, default=0.0)
 parser.add_argument('--OPTIM_PATIENCE', type=float, default=15)
-parser.add_argument('--EPOCHS', type=int, default=400)
+parser.add_argument('--EPOCHS', type=int, default=200)
 parser.add_argument('--VALID_RATIO', type=float, default=0.15)
 parser.add_argument('--SAVE_EPOCHS', type=lambda epochs: [float(epoch) for epoch in epochs.split(',')], default=None)
-parser.add_argument('--VAL_MRE_STOP', type=float, default=None,
-                    help='Stops training if validation MRE drops below the specified value.')
+parser.add_argument('--VAL_MRE_STOP', type=float, default=None, help='Stops training if validation MRE drops below the specified value.')
 args = parser.parse_args()
 
 print(f'Training model {args.MODEL_NAME}')
@@ -78,6 +74,7 @@ if args.USE_AFFINE_TRANS:
     scales = [0.95, 1.05]
     tx, ty = 0.03, 0.03
     affine_trans = AffineTransform(angle, scales, tx, ty)
+
 train_ds = LandmarkDataset(train_fnames, annotations_path, args.GAUSS_SIGMA, args.GAUSS_AMPLITUDE,
                            elastic_trans=elastic_trans,
                            affine_trans=affine_trans, horizontal_flip=args.USE_HORIZONTAL_FLIP)
@@ -85,8 +82,17 @@ train_dl = DataLoader(train_ds, args.BATCH_SIZE, shuffle=True, num_workers=num_w
 valid_ds = LandmarkDataset(valid_fnames, annotations_path, args.GAUSS_SIGMA, args.GAUSS_AMPLITUDE)
 valid_dl = DataLoader(valid_ds, args.BATCH_SIZE, shuffle=False, num_workers=num_workers)
 
-# Net model
+
+"""
+CUDA is a parallel computing platform and programming model that makes using a GPU 
+for general purpose computing simple and elegant. 
+
+"""
+
 device = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('cpu')
+print(f'Graphic Cart Used for the experiment: {device}')
+
+# Net model
 if args.MODEL == 'unet':
     net = UNet(in_ch=3, out_ch=N_LANDMARKS, down_drop=args.DOWN_DROP, up_drop=args.UP_DROP)
 

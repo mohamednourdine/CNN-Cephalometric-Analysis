@@ -68,6 +68,7 @@ class UNet(nn.Module):
         self.outconv = nn.Conv2d(64, out_ch, 1)
         self.predict_gaussian = predict_gaussian
 
+
     def forward(self, x):
         x1 = self.inconv(x)
         x2 = self.down1(x1)
@@ -85,5 +86,8 @@ class UNet(nn.Module):
         if self.predict_gaussian:
             n_landmarks = x.shape[1] // 2
             x_final = x.clone()
+            """
+            For numerical stability the implementation reverts to the linear function when input×β>threshold
+            """
             x_final[:, n_landmarks:, :, :] = F.softplus(x[:, n_landmarks:, :, :]) + 1e-6
         return x_final
