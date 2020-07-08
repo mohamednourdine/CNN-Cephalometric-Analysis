@@ -17,7 +17,7 @@ from model import UNet
 
 
 parser = argparse.ArgumentParser('')
-parser.add_argument('--MODE', type=str, required=True, choices=['mc', 'weight_averaging', 'ensemble'], help='Evaluation mode.')
+parser.add_argument('--MODE', type=str, required=True, choices=['ensemble'], help='Evaluation mode.')
 parser.add_argument('--DATA_SPLIT', type=str, default='test1', choices=['train', 'test1', 'test2'], help='Which data split to evaluate on.')
 parser.add_argument('--LOG_PATH', type=str, default='logs', help='Path to model logs.')
 parser.add_argument('--SAMPLES', type=int, default=15, help='Number of MC samples to use for prediction.')

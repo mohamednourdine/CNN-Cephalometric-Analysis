@@ -25,6 +25,12 @@ def get_elastic_transform_coordinates(im, sigma=8.0, alpha=15.0, random_state=No
     coordinates = np.reshape(y + dy, (-1, 1)), np.reshape(x + dx, (-1, 1))
     return coordinates, dx, dy
 
+def count_parameters(model):
+    params = [p.numel() for p in model.parameters() if p.requires_grad]
+    print("Including the bias terms for each layer, the total number of parameters being trained is:")
+    for item in params:
+        print(f'{item:>6}')
+    print(f'______\n{sum(params):>6}')
 
 class ElasticTransform():
     def __init__(self, sigma=8.0, alpha=15.0):

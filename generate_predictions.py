@@ -27,7 +27,7 @@ random.seed(42)
 device = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('cpu')
 
 parser = argparse.ArgumentParser('')
-parser.add_argument('--MODE', required=True, type=str, choices=['weight_averaging', 'mc', 'ensemble'], help='Evaluation mode.')
+parser.add_argument('--MODE', required=True, type=str, choices=['ensemble'], help='Evaluation mode.')
 parser.add_argument('--MODEL_PATH', required=True, type=str, help='Path to the evaluated model(s).')
 parser.add_argument('--DATA_SPLIT', type=str, choices=['train, test1, test2'], default='test1', help='Which data split to evaluate on.')
 parser.add_argument('--LOG_PATH', type=str, default='logs', help='Path to model(s).')
@@ -114,35 +114,18 @@ eval_ds = LandmarkDataset(data_fpaths, args.ANNOT_PATH, args.GAUSS_SIGMA, args.G
 eval_dl = DataLoader(eval_ds, args.BATCH_SIZE, shuffle=False, num_workers=1)
 
 model_name = args.MODEL_PATH.stem
-if args.MODE == 'weight_averaging':
-    log_path = log_path / f'weight_averaging/{model_name}/predictions.csv';
-    log_path.mkdir(parents=True, exist_ok=True)
+model_paths = list_files(args.MODEL_PATH)
 
-    print('Weight averaging model prediction.')
-    print(f'Log path {log_path}')
-    predictions = predict(args.MODEL_PATH, test_time_dropout=False)
-    predictions.to_csv(log_path)
-elif args.MODE == 'mc':
-    log_path = log_path / f'mc/{model_name}/predictions';
-    log_path.mkdir(parents=True, exist_ok=True)
+if len(model_paths) > args.SAMPLES:
+    model_paths = model_paths[:args.SAMPLES]
 
-    print(f'MC sampling with {args.SAMPLES} samples.')
-    print(f'Log dir:{log_path}')
-    for sample in range(args.SAMPLES):
-        predictions = predict(args.MODEL_PATH, test_time_dropout=True)
-        predictions.to_csv(log_path / f'{sample}.csv')
-        print(f'Sample {sample}/{args.SAMPLES} evaluated')
-elif args.MODE == 'ensemble':
-    model_paths = list_files(args.MODEL_PATH)
-    if len(model_paths) > args.SAMPLES:
-        model_paths = model_paths[:args.SAMPLES]
-
-    log_path = log_path / f'ensemble/{model_name}/predictions';
-    log_path.mkdir(parents=True, exist_ok=True)
-    print('Ensemble prediction.')
-    print(f'Log dir:{log_path}')
-    for i, model_path in enumerate(model_paths):
-        predictions = predict(model_path, test_time_dropout=False)
-        model_name = model_path.stem
-        predictions.to_csv(log_path / f'{model_name}.csv')
-        print(f'Model {i + 1}/{len(model_paths)} evaluated')
+log_path = log_path / f'ensemble/{model_name}/predictions';
+log_path.mkdir(parents=True, exist_ok=True)
+print('Ensemble prediction.')
+print(f'Log dir:{log_path}')
+for i, model_path in enumerate(model_paths):
+    predictions = predict(model_path, test_time_dropout=False)
+    model_name = model_path.stem
+    predictions.to_csv(log_path / f'{model_name}.csv')
+    print(f'Model {i + 1}/{len(model_paths)} evaluated')
+    

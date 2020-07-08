@@ -78,3 +78,10 @@ def plot_img_with_heatmaps(img, heatmaps, gaussian_sigma):
     return skull_fig
 
 
+def plot_training_result(trained_losses, trained_mre, trained_sdr_4mm):
+    plt.plot(trained_losses, label='Train loss')
+    plt.plot(trained_mre, label='Train Mean Root Error')
+    plt.plot(trained_sdr_4mm, label='Train Success Detection Rate')
+    plt.title('Loss at the end of each epoch')
+    plt.show();  
+
