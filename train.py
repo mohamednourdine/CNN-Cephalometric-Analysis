@@ -47,7 +47,7 @@ parser.add_argument('--ELASTIC_ALPHA', type=float, default=15.0)
 parser.add_argument('--LEARN_RATE', type=float, default=1e-3)
 parser.add_argument('--WEIGHT_DECAY', type=float, default=0.0)
 parser.add_argument('--OPTIM_PATIENCE', type=float, default=15)
-parser.add_argument('--EPOCHS', type=int, default=20)
+parser.add_argument('--EPOCHS', type=int, default=200)
 parser.add_argument('--VALID_RATIO', type=float, default=0.15) #Validation split using a ratio of 85:15
 parser.add_argument('--SAVE_EPOCHS', type=lambda epochs: [float(epoch) for epoch in epochs.split(',')], default=None)
 parser.add_argument('--VAL_MRE_STOP', type=float, default=None, help='The system stops training if validation MRE drops below the specified value.')
