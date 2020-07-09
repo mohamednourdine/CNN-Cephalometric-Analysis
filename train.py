@@ -27,7 +27,7 @@ random_id = int(random.uniform(0, 99999999))
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--DATA_PATH', type=str, default='./data', help='Define the root path to the dataset.')
-parser.add_argument('--TRAINED_MODEL_PATH', type=str, default='./trained', help='Path where the model checkpoints will be saved after it has been trained.')
+parser.add_argument('--MODEL_PATH', type=str, default='./trained', help='Path where the model checkpoints will be saved after it has been trained.')
 
 parser.add_argument('--MODEL_NAME', type=str, default=f'model_{random_id}')
 parser.add_argument('--EXPERIMENT_NAME', type=str, default=f'exp_{random_id}')
@@ -47,7 +47,7 @@ parser.add_argument('--ELASTIC_ALPHA', type=float, default=15.0)
 parser.add_argument('--LEARN_RATE', type=float, default=1e-3)
 parser.add_argument('--WEIGHT_DECAY', type=float, default=0.0)
 parser.add_argument('--OPTIM_PATIENCE', type=float, default=15)
-parser.add_argument('--EPOCHS', type=int, default=2)
+parser.add_argument('--EPOCHS', type=int, default=20)
 parser.add_argument('--VALID_RATIO', type=float, default=0.15) #Validation split using a ratio of 85:15
 parser.add_argument('--SAVE_EPOCHS', type=lambda epochs: [float(epoch) for epoch in epochs.split(',')], default=None)
 parser.add_argument('--VAL_MRE_STOP', type=float, default=None, help='The system stops training if validation MRE drops below the specified value.')
@@ -58,8 +58,8 @@ print(f'Training model {args.MODEL_NAME}')
 # Data paths
 path = Path(args.DATA_PATH)
 annotations_path = path / 'AnnotationsByMD' / '400_senior'
-TRAINED_model_path = Path(args.TRAINED_MODEL_PATH) if args.TRAINED_MODEL_PATH is not None else path / 'models'
-TRAINED_model_path.mkdir(parents=True, exist_ok=True)
+model_path = Path(args.MODEL_PATH) if args.MODEL_PATH is not None else path / 'models'
+model_path.mkdir(parents=True, exist_ok=True)
 train_path = path / f'images/{args.IMAGE_SIZE}/train'
 
 # Datasets, DataLoaders
@@ -202,13 +202,13 @@ try:
 
         if args.SAVE_EPOCHS is not None and e in args.SAVE_EPOCHS:
             print(f'Saving model checkpoint (one of {args.SAVE_EPOCHS} requested).')
-            with open(TRAINED_model_path / f'{args.MODEL_NAME}_e_{e}.pth', 'wb') as f:
+            with open(model_path / f'{args.MODEL_NAME}_e_{e}.pth', 'wb') as f:
                 torch.save(net, f)
 
         if not best_val_loss or val_loss < best_val_loss * 0.9999:
             num_bad_epochs = 0
             best_val_loss = val_loss
-            checkpoint_path = TRAINED_model_path / f'{args.MODEL_NAME}.pth'
+            checkpoint_path = model_path / f'{args.MODEL_NAME}.pth'
             print(f'Saving model checkpoint to {checkpoint_path}.')
             with open(checkpoint_path, 'wb') as f:
                 torch.save(net, f)
