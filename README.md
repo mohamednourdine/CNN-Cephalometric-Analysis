@@ -1,5 +1,5 @@
-# Msc-Seminer
-This project contains the work conducted for my MsC Seminer at KTUN, Computer Engineering Department. Cephalometry is defined as the scientific measurement and analysis of the human cranium. Cephalometric X-ray landmark localization is one of important research issues for medical science. This measurement is useful in many applications, such as orthodontic for cephalometric evaluation, planning treatment, and assessment of craniofacial growth. Since manual identification of predefined anatomical landmarks is very inconvenient and tedious, automated landmark identification is a very useful technique for Cephalometric X-ray. 
+# Cephalometric Analysis using CNN
+This project contains the work conducted for my MsC Thesis at KTUN, Computer Engineering Department. Cephalometry is defined as the scientific measurement and analysis of the human cranium. Cephalometric X-ray landmark localization is one of important research issues for medical science. This measurement is useful in many applications, such as orthodontic for cephalometric evaluation, planning treatment, and assessment of craniofacial growth. Since manual identification of predefined anatomical landmarks is very inconvenient and tedious, automated landmark identification is a very useful technique for Cephalometric X-ray. 
 
 # Deep Learning Papers on Medical Image Analysis
 
