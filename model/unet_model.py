@@ -7,7 +7,7 @@ class DoubleConv(nn.Module):
     def __init__(self, in_ch, out_ch):
         super().__init__()
         self.conv = nn.Sequential(
-            nn.Conv2d(in_ch, out_ch, 3, stride=1, padding=1),
+            nn.Conv2d(in_ch, out_ch, 3, stride=1, padding=1),  #kernel size is 3
             nn.ReLU(inplace=True),
             nn.BatchNorm2d(out_ch),
             nn.Conv2d(out_ch, out_ch, 3, stride=1, padding=1),
@@ -37,7 +37,7 @@ class DownBlock(nn.Module):
 class UpBlock(nn.Module):
     def __init__(self, in_ch, out_ch, drop=0):
         super().__init__()
-        self.up = nn.ConvTranspose2d(in_ch, in_ch // 2, 2, stride=2)
+        self.up = nn.ConvTranspose2d(in_ch, in_ch // 2, 2, stride=2) #Here to kernel size of 2
         self.drop = nn.Dropout2d(p=drop) if drop is not 0 else None
         self.conv = DoubleConv(in_ch, out_ch)
 

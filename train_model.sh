@@ -1,6 +1,6 @@
 model_name='Ensemble'
 mode='ensemble'
-ensemble_size=2
+ensemble_size=15
 
 for I in $(seq 1 $ensemble_size)
 do

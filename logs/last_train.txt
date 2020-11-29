@@ -1,0 +1,1073 @@
+Training model 1
+Number of train images: 128, Number of validation images: 22
+Graphic Cart Used for the experiment: cuda:0
+UNet(
+  (inconv): DoubleConv(
+    (conv): Sequential(
+      (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (1): ReLU(inplace=True)
+      (2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (3): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (4): ReLU(inplace=True)
+      (5): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (down1): DownBlock(
+    (mp): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (drop): Dropout2d(p=0.0, inplace=False)
+    (conv): DoubleConv(
+      (conv): Sequential(
+        (0): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): ReLU(inplace=True)
+        (2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (3): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (4): ReLU(inplace=True)
+        (5): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+  )
+  (down2): DownBlock(
+    (mp): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (drop): Dropout2d(p=0.0, inplace=False)
+    (conv): DoubleConv(
+      (conv): Sequential(
+        (0): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): ReLU(inplace=True)
+        (2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (3): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (4): ReLU(inplace=True)
+        (5): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+  )
+  (down3): DownBlock(
+    (mp): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (drop): Dropout2d(p=0.0, inplace=False)
+    (conv): DoubleConv(
+      (conv): Sequential(
+        (0): Conv2d(256, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): ReLU(inplace=True)
+        (2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (3): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (4): ReLU(inplace=True)
+        (5): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+  )
+  (down4): DownBlock(
+    (mp): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (drop): Dropout2d(p=0.0, inplace=False)
+    (conv): DoubleConv(
+      (conv): Sequential(
+        (0): Conv2d(512, 1024, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): ReLU(inplace=True)
+        (2): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (3): Conv2d(1024, 1024, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (4): ReLU(inplace=True)
+        (5): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+  )
+  (up1): UpBlock(
+    (up): ConvTranspose2d(1024, 512, kernel_size=(2, 2), stride=(2, 2))
+    (drop): Dropout2d(p=0.0, inplace=False)
+    (conv): DoubleConv(
+      (conv): Sequential(
+        (0): Conv2d(1024, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): ReLU(inplace=True)
+        (2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (3): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (4): ReLU(inplace=True)
+        (5): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+  )
+  (up2): UpBlock(
+    (up): ConvTranspose2d(512, 256, kernel_size=(2, 2), stride=(2, 2))
+    (drop): Dropout2d(p=0.0, inplace=False)
+    (conv): DoubleConv(
+      (conv): Sequential(
+        (0): Conv2d(512, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): ReLU(inplace=True)
+        (2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (3): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (4): ReLU(inplace=True)
+        (5): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+  )
+  (up3): UpBlock(
+    (up): ConvTranspose2d(256, 128, kernel_size=(2, 2), stride=(2, 2))
+    (drop): Dropout2d(p=0.0, inplace=False)
+    (conv): DoubleConv(
+      (conv): Sequential(
+        (0): Conv2d(256, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): ReLU(inplace=True)
+        (2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (3): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (4): ReLU(inplace=True)
+        (5): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+  )
+  (up4): UpBlock(
+    (up): ConvTranspose2d(128, 64, kernel_size=(2, 2), stride=(2, 2))
+    (drop): Dropout2d(p=0.0, inplace=False)
+    (conv): DoubleConv(
+      (conv): Sequential(
+        (0): Conv2d(128, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): ReLU(inplace=True)
+        (2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (3): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (4): ReLU(inplace=True)
+        (5): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+  )
+  (outconv): Conv2d(64, 19, kernel_size=(1, 1), stride=(1, 1))
+)
+Including the bias terms for each layer, the total number of parameters being trained is:
+  1728
+    64
+    64
+    64
+ 36864
+    64
+    64
+    64
+ 73728
+   128
+   128
+   128
+147456
+   128
+   128
+   128
+294912
+   256
+   256
+   256
+589824
+   256
+   256
+   256
+1179648
+   512
+   512
+   512
+2359296
+   512
+   512
+   512
+4718592
+  1024
+  1024
+  1024
+9437184
+  1024
+  1024
+  1024
+2097152
+   512
+4718592
+   512
+   512
+   512
+2359296
+   512
+   512
+   512
+524288
+   256
+1179648
+   256
+   256
+   256
+589824
+   256
+   256
+   256
+131072
+   128
+294912
+   128
+   128
+   128
+147456
+   128
+   128
+   128
+ 32768
+    64
+ 73728
+    64
+    64
+    64
+ 36864
+    64
+    64
+    64
+  1216
+    19
+______
+31044691
+Epoch: 1, train_loss: 0.5617, train_MRE: 60.88, train_SDR_4mm: 0.07812, 
+Duration: 23 seconds
+val_loss: 1.951, val_MRE: 31.58, val_SDR_4mm: 0.05742
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 2, train_loss: 0.3776, train_MRE: 18.15, train_SDR_4mm: 0.2615, 
+Duration: 50 seconds
+val_loss: 0.6265, val_MRE: 11.35, val_SDR_4mm: 0.2416
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 3, train_loss: 0.2842, train_MRE: 7.903, train_SDR_4mm: 0.4757, 
+Duration: 77 seconds
+val_loss: 0.3589, val_MRE: 5.495, val_SDR_4mm: 0.5191
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 4, train_loss: 0.2093, train_MRE: 3.76, train_SDR_4mm: 0.6887, 
+Duration: 104 seconds
+val_loss: 0.2152, val_MRE: 3.755, val_SDR_4mm: 0.6603
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 5, train_loss: 0.1616, train_MRE: 3.151, train_SDR_4mm: 0.7451, 
+Duration: 126 seconds
+val_loss: 0.163, val_MRE: 3.096, val_SDR_4mm: 0.7249
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 6, train_loss: 0.1246, train_MRE: 2.691, train_SDR_4mm: 0.8141, 
+Duration: 150 seconds
+val_loss: 0.1229, val_MRE: 2.649, val_SDR_4mm: 0.8445
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 7, train_loss: 0.1063, train_MRE: 2.423, train_SDR_4mm: 0.861, 
+Duration: 172 seconds
+val_loss: 0.1152, val_MRE: 2.63, val_SDR_4mm: 0.8493
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 8, train_loss: 0.09693, train_MRE: 2.299, train_SDR_4mm: 0.882, 
+Duration: 199 seconds
+val_loss: 0.1075, val_MRE: 2.518, val_SDR_4mm: 0.8517
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 9, train_loss: 0.09152, train_MRE: 2.245, train_SDR_4mm: 0.8927, 
+Duration: 221 seconds
+val_loss: 0.1032, val_MRE: 2.409, val_SDR_4mm: 0.878
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 10, train_loss: 0.08662, train_MRE: 2.122, train_SDR_4mm: 0.9095, 
+Duration: 243 seconds
+val_loss: 0.1057, val_MRE: 2.452, val_SDR_4mm: 0.8708
+Epoch: 11, train_loss: 0.08152, train_MRE: 2.019, train_SDR_4mm: 0.9215, 
+Duration: 264 seconds
+val_loss: 0.09613, val_MRE: 2.297, val_SDR_4mm: 0.8852
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 12, train_loss: 0.07714, train_MRE: 1.944, train_SDR_4mm: 0.9371, 
+Duration: 288 seconds
+val_loss: 0.09616, val_MRE: 2.314, val_SDR_4mm: 0.8828
+Epoch: 13, train_loss: 0.07514, train_MRE: 1.886, train_SDR_4mm: 0.9383, 
+Duration: 312 seconds
+val_loss: 0.0962, val_MRE: 2.292, val_SDR_4mm: 0.8828
+Epoch: 14, train_loss: 0.07172, train_MRE: 1.811, train_SDR_4mm: 0.9424, 
+Duration: 335 seconds
+val_loss: 0.09048, val_MRE: 2.153, val_SDR_4mm: 0.9019
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 15, train_loss: 0.06802, train_MRE: 1.734, train_SDR_4mm: 0.9494, 
+Duration: 361 seconds
+val_loss: 0.09064, val_MRE: 2.246, val_SDR_4mm: 0.8947
+Epoch: 16, train_loss: 0.06607, train_MRE: 1.683, train_SDR_4mm: 0.9585, 
+Duration: 384 seconds
+val_loss: 0.08974, val_MRE: 2.19, val_SDR_4mm: 0.8971
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 17, train_loss: 0.06172, train_MRE: 1.585, train_SDR_4mm: 0.9601, 
+Duration: 407 seconds
+val_loss: 0.08338, val_MRE: 2.077, val_SDR_4mm: 0.9163
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 18, train_loss: 0.05956, train_MRE: 1.531, train_SDR_4mm: 0.9679, 
+Duration: 434 seconds
+val_loss: 0.08534, val_MRE: 2.081, val_SDR_4mm: 0.9139
+Epoch: 19, train_loss: 0.05961, train_MRE: 1.523, train_SDR_4mm: 0.9613, 
+Duration: 458 seconds
+val_loss: 0.08906, val_MRE: 2.181, val_SDR_4mm: 0.9091
+Epoch: 20, train_loss: 0.05736, train_MRE: 1.486, train_SDR_4mm: 0.9688, 
+Duration: 482 seconds
+val_loss: 0.09051, val_MRE: 2.157, val_SDR_4mm: 0.9139
+Epoch: 21, train_loss: 0.05355, train_MRE: 1.325, train_SDR_4mm: 0.9745, 
+Duration: 506 seconds
+val_loss: 0.08537, val_MRE: 2.079, val_SDR_4mm: 0.9282
+Epoch: 22, train_loss: 0.05058, train_MRE: 1.26, train_SDR_4mm: 0.9815, 
+Duration: 530 seconds
+val_loss: 0.08984, val_MRE:  2.2, val_SDR_4mm: 0.8995
+Epoch: 23, train_loss: 0.04778, train_MRE: 1.168, train_SDR_4mm: 0.986, 
+Duration: 553 seconds
+val_loss: 0.08449, val_MRE: 2.035, val_SDR_4mm: 0.8995
+Epoch: 24, train_loss: 0.04663, train_MRE: 1.159, train_SDR_4mm: 0.9868, 
+Duration: 577 seconds
+val_loss: 0.08518, val_MRE: 2.02, val_SDR_4mm: 0.9211
+Epoch: 25, train_loss: 0.0459, train_MRE: 1.123, train_SDR_4mm: 0.9877, 
+Duration: 601 seconds
+val_loss: 0.08335, val_MRE: 2.01, val_SDR_4mm: 0.9234
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 26, train_loss: 0.0435, train_MRE: 1.06, train_SDR_4mm: 0.9934, 
+Duration: 626 seconds
+val_loss: 0.08205, val_MRE: 2.076, val_SDR_4mm: 0.9019
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 27, train_loss: 0.04114, train_MRE: 0.9765, train_SDR_4mm: 0.9938, 
+Duration: 652 seconds
+val_loss: 0.08591, val_MRE: 2.065, val_SDR_4mm: 0.9234
+Epoch: 28, train_loss: 0.03871, train_MRE: 0.8891, train_SDR_4mm: 0.9959, 
+Duration: 677 seconds
+val_loss: 0.08014, val_MRE: 2.075, val_SDR_4mm: 0.9139
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 29, train_loss: 0.03578, train_MRE: 0.7846, train_SDR_4mm: 0.9975, 
+Duration: 704 seconds
+val_loss: 0.08315, val_MRE: 2.148, val_SDR_4mm: 0.89
+Epoch: 30, train_loss: 0.03358, train_MRE: 0.7046, train_SDR_4mm: 0.9988, 
+Duration: 728 seconds
+val_loss: 0.08218, val_MRE: 2.096, val_SDR_4mm: 0.8995
+Epoch: 31, train_loss: 0.03179, train_MRE: 0.6385, train_SDR_4mm: 0.9996, 
+Duration: 752 seconds
+val_loss: 0.0772, val_MRE: 1.956, val_SDR_4mm: 0.9211
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 32, train_loss: 0.03124, train_MRE: 0.6231, train_SDR_4mm: 0.9996, 
+Duration: 779 seconds
+val_loss: 0.07924, val_MRE: 2.005, val_SDR_4mm: 0.9139
+Epoch: 33, train_loss: 0.03051, train_MRE: 0.6099, train_SDR_4mm:  1.0, 
+Duration: 803 seconds
+val_loss: 0.07606, val_MRE: 1.982, val_SDR_4mm: 0.9306
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 34, train_loss: 0.02874, train_MRE: 0.533, train_SDR_4mm: 0.9996, 
+Duration: 830 seconds
+val_loss: 0.07822, val_MRE: 1.984, val_SDR_4mm: 0.9426
+Epoch: 35, train_loss: 0.02693, train_MRE: 0.4543, train_SDR_4mm:  1.0, 
+Duration: 854 seconds
+val_loss: 0.07806, val_MRE: 1.981, val_SDR_4mm: 0.9306
+Epoch: 36, train_loss: 0.02679, train_MRE: 0.4838, train_SDR_4mm: 0.9996, 
+Duration: 876 seconds
+val_loss: 0.07696, val_MRE: 2.016, val_SDR_4mm: 0.9163
+Epoch: 37, train_loss: 0.02591, train_MRE: 0.4618, train_SDR_4mm:  1.0, 
+Duration: 896 seconds
+val_loss: 0.07869, val_MRE: 2.011, val_SDR_4mm: 0.9234
+Epoch: 38, train_loss: 0.02516, train_MRE: 0.4424, train_SDR_4mm: 0.9996, 
+Duration: 917 seconds
+val_loss: 0.07881, val_MRE: 2.014, val_SDR_4mm: 0.9043
+Epoch: 39, train_loss: 0.02406, train_MRE: 0.3879, train_SDR_4mm:  1.0, 
+Duration: 937 seconds
+val_loss: 0.07656, val_MRE: 2.018, val_SDR_4mm: 0.9187
+Epoch: 40, train_loss: 0.02232, train_MRE: 0.3026, train_SDR_4mm:  1.0, 
+Duration: 958 seconds
+val_loss: 0.07685, val_MRE: 1.98, val_SDR_4mm: 0.9091
+Epoch: 41, train_loss: 0.02126, train_MRE: 0.2737, train_SDR_4mm:  1.0, 
+Duration: 978 seconds
+val_loss: 0.07501, val_MRE: 1.948, val_SDR_4mm: 0.9091
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 42, train_loss: 0.02007, train_MRE: 0.2099, train_SDR_4mm:  1.0, 
+Duration: 1001 seconds
+val_loss: 0.07519, val_MRE: 1.922, val_SDR_4mm: 0.9234
+Epoch: 43, train_loss: 0.01937, train_MRE: 0.2247, train_SDR_4mm:  1.0, 
+Duration: 1021 seconds
+val_loss: 0.0774, val_MRE: 1.973, val_SDR_4mm: 0.9139
+Epoch: 44, train_loss: 0.01978, train_MRE: 0.2613, train_SDR_4mm:  1.0, 
+Duration: 1042 seconds
+val_loss: 0.0762, val_MRE: 1.93, val_SDR_4mm: 0.9211
+Epoch: 45, train_loss: 0.01949, train_MRE: 0.2312, train_SDR_4mm:  1.0, 
+Duration: 1062 seconds
+val_loss: 0.07493, val_MRE: 1.967, val_SDR_4mm: 0.9139
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 46, train_loss: 0.01867, train_MRE: 0.2149, train_SDR_4mm:  1.0, 
+Duration: 1085 seconds
+val_loss: 0.07777, val_MRE: 1.971, val_SDR_4mm: 0.9043
+Epoch: 47, train_loss: 0.0184, train_MRE: 0.2221, train_SDR_4mm:  1.0, 
+Duration: 1105 seconds
+val_loss: 0.08038, val_MRE: 2.006, val_SDR_4mm: 0.9091
+Epoch: 48, train_loss: 0.01773, train_MRE: 0.1844, train_SDR_4mm:  1.0, 
+Duration: 1126 seconds
+val_loss: 0.08023, val_MRE: 2.006, val_SDR_4mm: 0.9019
+Epoch: 49, train_loss: 0.01723, train_MRE: 0.1748, train_SDR_4mm:  1.0, 
+Duration: 1146 seconds
+val_loss: 0.07389, val_MRE: 1.907, val_SDR_4mm: 0.9091
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 50, train_loss: 0.01707, train_MRE: 0.1888, train_SDR_4mm:  1.0, 
+Duration: 1171 seconds
+val_loss: 0.07619, val_MRE: 1.953, val_SDR_4mm: 0.9067
+Epoch: 51, train_loss: 0.01724, train_MRE: 0.206, train_SDR_4mm:  1.0, 
+Duration: 1195 seconds
+val_loss: 0.08347, val_MRE: 2.109, val_SDR_4mm: 0.8995
+Epoch: 52, train_loss: 0.01842, train_MRE: 0.2556, train_SDR_4mm:  1.0, 
+Duration: 1219 seconds
+val_loss: 0.07653, val_MRE: 1.959, val_SDR_4mm: 0.9187
+Epoch: 53, train_loss: 0.01699, train_MRE: 0.2053, train_SDR_4mm:  1.0, 
+Duration: 1243 seconds
+val_loss: 0.07934, val_MRE: 1.986, val_SDR_4mm: 0.9115
+Epoch: 54, train_loss: 0.01582, train_MRE: 0.1429, train_SDR_4mm:  1.0, 
+Duration: 1267 seconds
+val_loss: 0.07607, val_MRE: 1.936, val_SDR_4mm: 0.9091
+Epoch: 55, train_loss: 0.01513, train_MRE: 0.1523, train_SDR_4mm:  1.0, 
+Duration: 1291 seconds
+val_loss: 0.07546, val_MRE: 1.912, val_SDR_4mm: 0.9187
+Epoch: 56, train_loss: 0.01447, train_MRE: 0.1116, train_SDR_4mm:  1.0, 
+Duration: 1315 seconds
+val_loss: 0.07163, val_MRE: 1.832, val_SDR_4mm: 0.9187
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 57, train_loss: 0.01372, train_MRE: 0.09845, train_SDR_4mm:  1.0, 
+Duration: 1341 seconds
+val_loss: 0.07183, val_MRE: 1.907, val_SDR_4mm: 0.9163
+Epoch: 58, train_loss: 0.01314, train_MRE: 0.08874, train_SDR_4mm:  1.0, 
+Duration: 1362 seconds
+val_loss: 0.06972, val_MRE: 1.82, val_SDR_4mm: 0.9306
+Saving model checkpoint to trained/ensemble/Ensemble/1.pth.
+Epoch: 59, train_loss: 0.01283, train_MRE: 0.08299, train_SDR_4mm:  1.0, 
+Duration: 1384 seconds
+val_loss: 0.07544, val_MRE: 1.862, val_SDR_4mm: 0.9211
+Epoch: 60, train_loss: 0.01214, train_MRE: 0.07382, train_SDR_4mm:  1.0, 
+Duration: 1405 seconds
+val_loss: 0.07661, val_MRE: 1.932, val_SDR_4mm: 0.9139
+Epoch: 61, train_loss: 0.01188, train_MRE: 0.07839, train_SDR_4mm:  1.0, 
+Duration: 1425 seconds
+val_loss: 0.07537, val_MRE: 1.959, val_SDR_4mm: 0.9139
+Epoch: 62, train_loss: 0.01115, train_MRE: 0.05595, train_SDR_4mm:  1.0, 
+Duration: 1446 seconds
+val_loss: 0.07505, val_MRE: 1.883, val_SDR_4mm: 0.9139
+Epoch: 63, train_loss: 0.01049, train_MRE: 0.03384, train_SDR_4mm:  1.0, 
+Duration: 1466 seconds
+val_loss: 0.07576, val_MRE: 1.935, val_SDR_4mm: 0.9115
+Epoch: 64, train_loss: 0.01006, train_MRE: 0.04103, train_SDR_4mm:  1.0, 
+Duration: 1487 seconds
+val_loss: 0.07342, val_MRE: 1.906, val_SDR_4mm: 0.9115
+Epoch: 65, train_loss: 0.01011, train_MRE: 0.0435, train_SDR_4mm:  1.0, 
+Duration: 1507 seconds
+val_loss: 0.07518, val_MRE: 1.84, val_SDR_4mm: 0.9187
+Epoch: 66, train_loss: 0.009709, train_MRE: 0.02775, train_SDR_4mm:  1.0, 
+Duration: 1528 seconds
+val_loss: 0.07386, val_MRE: 1.895, val_SDR_4mm: 0.9163
+Epoch: 67, train_loss: 0.009345, train_MRE: 0.02915, train_SDR_4mm:  1.0, 
+Duration: 1548 seconds
+val_loss: 0.07301, val_MRE: 1.926, val_SDR_4mm: 0.9187
+Epoch: 68, train_loss: 0.00987, train_MRE: 0.0347, train_SDR_4mm:  1.0, 
+Duration: 1569 seconds
+val_loss: 0.07383, val_MRE: 1.907, val_SDR_4mm: 0.9139
+Epoch: 69, train_loss: 0.00988, train_MRE: 0.04842, train_SDR_4mm:  1.0, 
+Duration: 1589 seconds
+val_loss: 0.07391, val_MRE: 1.901, val_SDR_4mm: 0.9163
+Epoch: 70, train_loss: 0.009875, train_MRE: 0.03643, train_SDR_4mm:  1.0, 
+Duration: 1610 seconds
+val_loss: 0.07636, val_MRE: 1.908, val_SDR_4mm: 0.9139
+Epoch: 71, train_loss: 0.009734, train_MRE: 0.05046, train_SDR_4mm:  1.0, 
+Duration: 1630 seconds
+val_loss: 0.07401, val_MRE: 1.878, val_SDR_4mm: 0.9187
+Epoch: 72, train_loss: 0.009455, train_MRE: 0.04697, train_SDR_4mm:  1.0, 
+Duration: 1651 seconds
+val_loss: 0.07377, val_MRE: 1.904, val_SDR_4mm: 0.9115
+Epoch: 73, train_loss: 0.009169, train_MRE: 0.04633, train_SDR_4mm:  1.0, 
+Duration: 1671 seconds
+val_loss: 0.07258, val_MRE: 1.856, val_SDR_4mm: 0.9139
+Epoch: 74, train_loss: 0.008489, train_MRE: 0.02393, train_SDR_4mm:  1.0, 
+Duration: 1692 seconds
+val_loss: 0.07342, val_MRE: 1.895, val_SDR_4mm: 0.9139
+Epoch    74: reducing learning rate of group 0 to 1.0000e-04.
+Epoch: 75, train_loss: 0.007017, train_MRE: 0.007113, train_SDR_4mm:  1.0, 
+Duration: 1712 seconds
+val_loss: 0.07207, val_MRE: 1.875, val_SDR_4mm: 0.9187
+Epoch: 76, train_loss: 0.006226, train_MRE: 0.00588, train_SDR_4mm:  1.0, 
+Duration: 1733 seconds
+val_loss: 0.07183, val_MRE: 1.868, val_SDR_4mm: 0.9211
+Epoch: 77, train_loss: 0.005908, train_MRE: 0.004975, train_SDR_4mm:  1.0, 
+Duration: 1753 seconds
+val_loss: 0.07167, val_MRE: 1.864, val_SDR_4mm: 0.9211
+Epoch: 78, train_loss: 0.00577, train_MRE: 0.003701, train_SDR_4mm:  1.0, 
+Duration: 1774 seconds
+val_loss: 0.0718, val_MRE: 1.855, val_SDR_4mm: 0.9211
+Epoch: 79, train_loss: 0.005684, train_MRE: 0.004317, train_SDR_4mm:  1.0, 
+Duration: 1794 seconds
+val_loss: 0.07166, val_MRE: 1.879, val_SDR_4mm: 0.9187
+Epoch: 80, train_loss: 0.005607, train_MRE: 0.00588, train_SDR_4mm:  1.0, 
+Duration: 1814 seconds
+val_loss: 0.07162, val_MRE: 1.862, val_SDR_4mm: 0.9211
+Epoch: 81, train_loss: 0.00552, train_MRE: 0.002837, train_SDR_4mm:  1.0, 
+Duration: 1835 seconds
+val_loss: 0.07159, val_MRE: 1.883, val_SDR_4mm: 0.9187
+Epoch: 82, train_loss: 0.00545, train_MRE: 0.004194, train_SDR_4mm:  1.0, 
+Duration: 1855 seconds
+val_loss: 0.07165, val_MRE: 1.879, val_SDR_4mm: 0.9211
+Epoch: 83, train_loss: 0.00538, train_MRE: 0.002837, train_SDR_4mm:  1.0, 
+Duration: 1876 seconds
+val_loss: 0.07143, val_MRE: 1.868, val_SDR_4mm: 0.9211
+Epoch: 84, train_loss: 0.005378, train_MRE: 0.003618, train_SDR_4mm:  1.0, 
+Duration: 1896 seconds
+val_loss: 0.07146, val_MRE: 1.856, val_SDR_4mm: 0.9211
+Epoch: 85, train_loss: 0.005332, train_MRE: 0.001398, train_SDR_4mm:  1.0, 
+Duration: 1919 seconds
+val_loss: 0.0717, val_MRE: 1.879, val_SDR_4mm: 0.9211
+Epoch: 86, train_loss: 0.005291, train_MRE: 0.002961, train_SDR_4mm:  1.0, 
+Duration: 1944 seconds
+val_loss: 0.07171, val_MRE: 1.869, val_SDR_4mm: 0.9211
+Epoch: 87, train_loss: 0.005249, train_MRE: 0.002919, train_SDR_4mm:  1.0, 
+Duration: 1968 seconds
+val_loss: 0.07169, val_MRE: 1.856, val_SDR_4mm: 0.9211
+Epoch: 88, train_loss: 0.005243, train_MRE: 0.002138, train_SDR_4mm:  1.0, 
+Duration: 1993 seconds
+val_loss: 0.07161, val_MRE: 1.882, val_SDR_4mm: 0.9211
+Epoch: 89, train_loss: 0.005243, train_MRE: 0.001398, train_SDR_4mm:  1.0, 
+Duration: 2017 seconds
+val_loss: 0.07165, val_MRE: 1.858, val_SDR_4mm: 0.9234
+Stopping experiment due to plateauing.
+Training model 2
+Number of train images: 128, Number of validation images: 22
+Graphic Cart Used for the experiment: cuda:0
+UNet(
+  (inconv): DoubleConv(
+    (conv): Sequential(
+      (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (1): ReLU(inplace=True)
+      (2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (3): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (4): ReLU(inplace=True)
+      (5): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (down1): DownBlock(
+    (mp): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (drop): Dropout2d(p=0.0, inplace=False)
+    (conv): DoubleConv(
+      (conv): Sequential(
+        (0): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): ReLU(inplace=True)
+        (2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (3): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (4): ReLU(inplace=True)
+        (5): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+  )
+  (down2): DownBlock(
+    (mp): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (drop): Dropout2d(p=0.0, inplace=False)
+    (conv): DoubleConv(
+      (conv): Sequential(
+        (0): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): ReLU(inplace=True)
+        (2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (3): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (4): ReLU(inplace=True)
+        (5): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+  )
+  (down3): DownBlock(
+    (mp): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (drop): Dropout2d(p=0.0, inplace=False)
+    (conv): DoubleConv(
+      (conv): Sequential(
+        (0): Conv2d(256, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): ReLU(inplace=True)
+        (2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (3): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (4): ReLU(inplace=True)
+        (5): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+  )
+  (down4): DownBlock(
+    (mp): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (drop): Dropout2d(p=0.0, inplace=False)
+    (conv): DoubleConv(
+      (conv): Sequential(
+        (0): Conv2d(512, 1024, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): ReLU(inplace=True)
+        (2): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (3): Conv2d(1024, 1024, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (4): ReLU(inplace=True)
+        (5): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+  )
+  (up1): UpBlock(
+    (up): ConvTranspose2d(1024, 512, kernel_size=(2, 2), stride=(2, 2))
+    (drop): Dropout2d(p=0.0, inplace=False)
+    (conv): DoubleConv(
+      (conv): Sequential(
+        (0): Conv2d(1024, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): ReLU(inplace=True)
+        (2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (3): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (4): ReLU(inplace=True)
+        (5): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+  )
+  (up2): UpBlock(
+    (up): ConvTranspose2d(512, 256, kernel_size=(2, 2), stride=(2, 2))
+    (drop): Dropout2d(p=0.0, inplace=False)
+    (conv): DoubleConv(
+      (conv): Sequential(
+        (0): Conv2d(512, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): ReLU(inplace=True)
+        (2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (3): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (4): ReLU(inplace=True)
+        (5): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+  )
+  (up3): UpBlock(
+    (up): ConvTranspose2d(256, 128, kernel_size=(2, 2), stride=(2, 2))
+    (drop): Dropout2d(p=0.0, inplace=False)
+    (conv): DoubleConv(
+      (conv): Sequential(
+        (0): Conv2d(256, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): ReLU(inplace=True)
+        (2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (3): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (4): ReLU(inplace=True)
+        (5): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+  )
+  (up4): UpBlock(
+    (up): ConvTranspose2d(128, 64, kernel_size=(2, 2), stride=(2, 2))
+    (drop): Dropout2d(p=0.0, inplace=False)
+    (conv): DoubleConv(
+      (conv): Sequential(
+        (0): Conv2d(128, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): ReLU(inplace=True)
+        (2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (3): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (4): ReLU(inplace=True)
+        (5): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+  )
+  (outconv): Conv2d(64, 19, kernel_size=(1, 1), stride=(1, 1))
+)
+Including the bias terms for each layer, the total number of parameters being trained is:
+  1728
+    64
+    64
+    64
+ 36864
+    64
+    64
+    64
+ 73728
+   128
+   128
+   128
+147456
+   128
+   128
+   128
+294912
+   256
+   256
+   256
+589824
+   256
+   256
+   256
+1179648
+   512
+   512
+   512
+2359296
+   512
+   512
+   512
+4718592
+  1024
+  1024
+  1024
+9437184
+  1024
+  1024
+  1024
+2097152
+   512
+4718592
+   512
+   512
+   512
+2359296
+   512
+   512
+   512
+524288
+   256
+1179648
+   256
+   256
+   256
+589824
+   256
+   256
+   256
+131072
+   128
+294912
+   128
+   128
+   128
+147456
+   128
+   128
+   128
+ 32768
+    64
+ 73728
+    64
+    64
+    64
+ 36864
+    64
+    64
+    64
+  1216
+    19
+______
+31044691
+Epoch: 1, train_loss: 0.5493, train_MRE: 63.01, train_SDR_4mm: 0.09046, 
+Duration: 19 seconds
+val_loss: 5.527, val_MRE: 38.18, val_SDR_4mm: 0.06459
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 2, train_loss: 0.38, train_MRE: 25.81, train_SDR_4mm: 0.229, 
+Duration: 39 seconds
+val_loss: 0.5119, val_MRE: 23.36, val_SDR_4mm: 0.3086
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 3, train_loss: 0.2937, train_MRE: 13.66, train_SDR_4mm: 0.4807, 
+Duration: 62 seconds
+val_loss: 0.2896, val_MRE: 9.75, val_SDR_4mm: 0.5287
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 4, train_loss: 0.2256, train_MRE: 5.333, train_SDR_4mm: 0.6591, 
+Duration: 84 seconds
+val_loss: 0.2484, val_MRE: 5.765, val_SDR_4mm: 0.6459
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 5, train_loss: 0.1665, train_MRE: 3.015, train_SDR_4mm: 0.7644, 
+Duration: 108 seconds
+val_loss: 0.1651, val_MRE: 2.831, val_SDR_4mm: 0.7943
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 6, train_loss: 0.1261, train_MRE: 2.685, train_SDR_4mm: 0.8187, 
+Duration: 130 seconds
+val_loss: 0.1269, val_MRE: 2.609, val_SDR_4mm: 0.8397
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 7, train_loss: 0.1073, train_MRE: 2.471, train_SDR_4mm: 0.8524, 
+Duration: 153 seconds
+val_loss: 0.1229, val_MRE: 2.625, val_SDR_4mm: 0.8421
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 8, train_loss: 0.1014, train_MRE: 2.397, train_SDR_4mm: 0.8672, 
+Duration: 177 seconds
+val_loss: 0.1258, val_MRE: 2.638, val_SDR_4mm: 0.8612
+Epoch: 9, train_loss: 0.096, train_MRE: 2.276, train_SDR_4mm: 0.8857, 
+Duration: 201 seconds
+val_loss: 0.1073, val_MRE: 2.441, val_SDR_4mm: 0.8493
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 10, train_loss: 0.08682, train_MRE: 2.113, train_SDR_4mm: 0.9104, 
+Duration: 227 seconds
+val_loss: 0.09736, val_MRE: 2.266, val_SDR_4mm: 0.8852
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 11, train_loss: 0.08319, train_MRE: 2.046, train_SDR_4mm: 0.9219, 
+Duration: 253 seconds
+val_loss: 0.09512, val_MRE: 2.259, val_SDR_4mm: 0.8876
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 12, train_loss: 0.08265, train_MRE: 2.081, train_SDR_4mm: 0.9276, 
+Duration: 280 seconds
+val_loss: 0.09762, val_MRE: 2.383, val_SDR_4mm: 0.8684
+Epoch: 13, train_loss: 0.07776, train_MRE: 1.976, train_SDR_4mm: 0.9334, 
+Duration: 300 seconds
+val_loss: 0.09017, val_MRE: 2.125, val_SDR_4mm: 0.9067
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 14, train_loss: 0.07393, train_MRE: 1.878, train_SDR_4mm: 0.9383, 
+Duration: 322 seconds
+val_loss: 0.09117, val_MRE: 2.186, val_SDR_4mm: 0.9019
+Epoch: 15, train_loss: 0.06973, train_MRE: 1.768, train_SDR_4mm: 0.9539, 
+Duration: 342 seconds
+val_loss: 0.08902, val_MRE: 2.083, val_SDR_4mm: 0.8995
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 16, train_loss: 0.06792, train_MRE: 1.718, train_SDR_4mm: 0.9531, 
+Duration: 365 seconds
+val_loss: 0.08984, val_MRE: 2.076, val_SDR_4mm: 0.8947
+Epoch: 17, train_loss: 0.06633, train_MRE: 1.706, train_SDR_4mm: 0.9581, 
+Duration: 385 seconds
+val_loss: 0.08543, val_MRE: 2.053, val_SDR_4mm: 0.9067
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 18, train_loss: 0.06429, train_MRE: 1.653, train_SDR_4mm: 0.9609, 
+Duration: 407 seconds
+val_loss: 0.08693, val_MRE: 2.162, val_SDR_4mm: 0.9019
+Epoch: 19, train_loss: 0.06023, train_MRE: 1.55, train_SDR_4mm: 0.9688, 
+Duration: 427 seconds
+val_loss: 0.08352, val_MRE: 2.066, val_SDR_4mm: 0.9019
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 20, train_loss: 0.05811, train_MRE: 1.473, train_SDR_4mm: 0.9679, 
+Duration: 450 seconds
+val_loss: 0.08675, val_MRE: 2.062, val_SDR_4mm: 0.9043
+Epoch: 21, train_loss: 0.05484, train_MRE: 1.377, train_SDR_4mm: 0.9729, 
+Duration: 470 seconds
+val_loss: 0.08582, val_MRE: 2.091, val_SDR_4mm: 0.8995
+Epoch: 22, train_loss: 0.05308, train_MRE: 1.305, train_SDR_4mm: 0.9766, 
+Duration: 490 seconds
+val_loss: 0.08213, val_MRE: 1.972, val_SDR_4mm: 0.9187
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 23, train_loss: 0.05088, train_MRE: 1.25, train_SDR_4mm: 0.9778, 
+Duration: 513 seconds
+val_loss: 0.08335, val_MRE: 1.986, val_SDR_4mm: 0.9139
+Epoch: 24, train_loss: 0.04807, train_MRE: 1.161, train_SDR_4mm: 0.9873, 
+Duration: 533 seconds
+val_loss: 0.07913, val_MRE: 1.92, val_SDR_4mm: 0.9211
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 25, train_loss: 0.04552, train_MRE: 1.096, train_SDR_4mm: 0.9893, 
+Duration: 555 seconds
+val_loss: 0.08368, val_MRE: 2.036, val_SDR_4mm: 0.9139
+Epoch: 26, train_loss: 0.04379, train_MRE: 1.038, train_SDR_4mm: 0.9926, 
+Duration: 575 seconds
+val_loss: 0.0861, val_MRE: 2.085, val_SDR_4mm: 0.9043
+Epoch: 27, train_loss: 0.04368, train_MRE: 1.052, train_SDR_4mm: 0.9905, 
+Duration: 597 seconds
+val_loss: 0.08142, val_MRE: 2.048, val_SDR_4mm: 0.9187
+Epoch: 28, train_loss: 0.0429, train_MRE: 1.028, train_SDR_4mm: 0.9922, 
+Duration: 617 seconds
+val_loss: 0.08107, val_MRE: 2.046, val_SDR_4mm: 0.8995
+Epoch: 29, train_loss: 0.04016, train_MRE: 0.9377, train_SDR_4mm: 0.9963, 
+Duration: 637 seconds
+val_loss: 0.07672, val_MRE: 1.95, val_SDR_4mm: 0.9282
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 30, train_loss: 0.03752, train_MRE: 0.8427, train_SDR_4mm: 0.9967, 
+Duration: 659 seconds
+val_loss: 0.08572, val_MRE: 2.113, val_SDR_4mm: 0.9019
+Epoch: 31, train_loss: 0.03652, train_MRE: 0.8336, train_SDR_4mm: 0.9975, 
+Duration: 681 seconds
+val_loss: 0.08178, val_MRE: 2.073, val_SDR_4mm: 0.9163
+Epoch: 32, train_loss: 0.03462, train_MRE: 0.7804, train_SDR_4mm: 0.9975, 
+Duration: 705 seconds
+val_loss: 0.07669, val_MRE: 1.96, val_SDR_4mm: 0.9115
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 33, train_loss: 0.03328, train_MRE: 0.7432, train_SDR_4mm: 0.9967, 
+Duration: 731 seconds
+val_loss: 0.07699, val_MRE: 1.94, val_SDR_4mm: 0.9211
+Epoch: 34, train_loss: 0.03208, train_MRE: 0.6797, train_SDR_4mm: 0.9984, 
+Duration: 755 seconds
+val_loss: 0.08455, val_MRE: 2.066, val_SDR_4mm: 0.9091
+Epoch: 35, train_loss: 0.03124, train_MRE: 0.6275, train_SDR_4mm:  1.0, 
+Duration: 780 seconds
+val_loss: 0.07943, val_MRE: 2.001, val_SDR_4mm: 0.9211
+Epoch: 36, train_loss: 0.02984, train_MRE: 0.5782, train_SDR_4mm: 0.9996, 
+Duration: 805 seconds
+val_loss: 0.07672, val_MRE: 1.939, val_SDR_4mm: 0.9163
+Epoch: 37, train_loss: 0.02813, train_MRE: 0.5038, train_SDR_4mm:  1.0, 
+Duration: 830 seconds
+val_loss: 0.07518, val_MRE: 1.953, val_SDR_4mm: 0.9211
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 38, train_loss: 0.02705, train_MRE: 0.4653, train_SDR_4mm:  1.0, 
+Duration: 855 seconds
+val_loss: 0.07918, val_MRE: 1.986, val_SDR_4mm: 0.9163
+Epoch: 39, train_loss: 0.02526, train_MRE: 0.4013, train_SDR_4mm:  1.0, 
+Duration: 876 seconds
+val_loss: 0.07697, val_MRE: 2.003, val_SDR_4mm: 0.9163
+Epoch: 40, train_loss: 0.02398, train_MRE: 0.3392, train_SDR_4mm:  1.0, 
+Duration: 898 seconds
+val_loss: 0.07291, val_MRE: 1.903, val_SDR_4mm: 0.9211
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 41, train_loss: 0.02403, train_MRE: 0.3457, train_SDR_4mm:  1.0, 
+Duration: 922 seconds
+val_loss: 0.07568, val_MRE: 1.953, val_SDR_4mm: 0.9091
+Epoch: 42, train_loss: 0.02378, train_MRE: 0.3537, train_SDR_4mm:  1.0, 
+Duration: 944 seconds
+val_loss: 0.07562, val_MRE: 1.921, val_SDR_4mm: 0.933
+Epoch: 43, train_loss: 0.02358, train_MRE: 0.3815, train_SDR_4mm:  1.0, 
+Duration: 969 seconds
+val_loss: 0.07805, val_MRE: 1.958, val_SDR_4mm: 0.9187
+Epoch: 44, train_loss: 0.02254, train_MRE: 0.3187, train_SDR_4mm:  1.0, 
+Duration: 989 seconds
+val_loss: 0.07613, val_MRE: 1.978, val_SDR_4mm: 0.9187
+Epoch: 45, train_loss: 0.02148, train_MRE: 0.291, train_SDR_4mm:  1.0, 
+Duration: 1012 seconds
+val_loss: 0.07447, val_MRE: 1.913, val_SDR_4mm: 0.9282
+Epoch: 46, train_loss: 0.02113, train_MRE: 0.2956, train_SDR_4mm:  1.0, 
+Duration: 1033 seconds
+val_loss: 0.07889, val_MRE: 1.999, val_SDR_4mm: 0.8995
+Epoch: 47, train_loss: 0.02132, train_MRE: 0.3303, train_SDR_4mm:  1.0, 
+Duration: 1054 seconds
+val_loss: 0.07649, val_MRE: 1.956, val_SDR_4mm: 0.9067
+Epoch: 48, train_loss: 0.0212, train_MRE: 0.335, train_SDR_4mm:  1.0, 
+Duration: 1075 seconds
+val_loss: 0.07842, val_MRE: 1.977, val_SDR_4mm: 0.9091
+Epoch: 49, train_loss: 0.02115, train_MRE: 0.3285, train_SDR_4mm: 0.9996, 
+Duration: 1096 seconds
+val_loss: 0.07655, val_MRE: 1.961, val_SDR_4mm: 0.9187
+Epoch: 50, train_loss: 0.01979, train_MRE: 0.2656, train_SDR_4mm:  1.0, 
+Duration: 1117 seconds
+val_loss: 0.07525, val_MRE: 1.935, val_SDR_4mm: 0.9187
+Epoch: 51, train_loss: 0.01904, train_MRE: 0.2308, train_SDR_4mm: 0.9996, 
+Duration: 1138 seconds
+val_loss: 0.07757, val_MRE: 1.914, val_SDR_4mm: 0.9187
+Epoch: 52, train_loss: 0.01781, train_MRE: 0.2124, train_SDR_4mm:  1.0, 
+Duration: 1164 seconds
+val_loss: 0.07456, val_MRE: 1.982, val_SDR_4mm: 0.9258
+Epoch: 53, train_loss: 0.01624, train_MRE: 0.1391, train_SDR_4mm:  1.0, 
+Duration: 1190 seconds
+val_loss: 0.07688, val_MRE: 1.997, val_SDR_4mm: 0.9163
+Epoch: 54, train_loss: 0.01549, train_MRE: 0.1203, train_SDR_4mm:  1.0, 
+Duration: 1214 seconds
+val_loss: 0.0746, val_MRE: 1.922, val_SDR_4mm: 0.9306
+Epoch: 55, train_loss: 0.01518, train_MRE: 0.116, train_SDR_4mm:  1.0, 
+Duration: 1238 seconds
+val_loss: 0.07492, val_MRE: 1.92, val_SDR_4mm: 0.9234
+Epoch: 56, train_loss: 0.01542, train_MRE: 0.1328, train_SDR_4mm:  1.0, 
+Duration: 1263 seconds
+val_loss: 0.07437, val_MRE: 1.889, val_SDR_4mm: 0.9282
+Epoch    56: reducing learning rate of group 0 to 1.0000e-04.
+Epoch: 57, train_loss: 0.01285, train_MRE: 0.05922, train_SDR_4mm:  1.0, 
+Duration: 1287 seconds
+val_loss: 0.07202, val_MRE: 1.893, val_SDR_4mm: 0.9258
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 58, train_loss: 0.01144, train_MRE: 0.03315, train_SDR_4mm:  1.0, 
+Duration: 1314 seconds
+val_loss: 0.0716, val_MRE: 1.884, val_SDR_4mm: 0.9234
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 59, train_loss: 0.01082, train_MRE: 0.02134, train_SDR_4mm:  1.0, 
+Duration: 1340 seconds
+val_loss: 0.07165, val_MRE: 1.857, val_SDR_4mm: 0.9282
+Epoch: 60, train_loss: 0.01048, train_MRE: 0.0155, train_SDR_4mm:  1.0, 
+Duration: 1364 seconds
+val_loss: 0.0722, val_MRE: 1.882, val_SDR_4mm: 0.9211
+Epoch: 61, train_loss: 0.01031, train_MRE: 0.01834, train_SDR_4mm:  1.0, 
+Duration: 1389 seconds
+val_loss: 0.07194, val_MRE: 1.854, val_SDR_4mm: 0.9234
+Epoch: 62, train_loss: 0.01012, train_MRE: 0.01356, train_SDR_4mm:  1.0, 
+Duration: 1414 seconds
+val_loss: 0.07214, val_MRE: 1.91, val_SDR_4mm: 0.9234
+Epoch: 63, train_loss: 0.009937, train_MRE: 0.01299, train_SDR_4mm:  1.0, 
+Duration: 1438 seconds
+val_loss: 0.07165, val_MRE: 1.865, val_SDR_4mm: 0.9211
+Epoch: 64, train_loss: 0.009844, train_MRE: 0.0148, train_SDR_4mm:  1.0, 
+Duration: 1462 seconds
+val_loss: 0.0718, val_MRE: 1.859, val_SDR_4mm: 0.9234
+Epoch: 65, train_loss: 0.009705, train_MRE: 0.01401, train_SDR_4mm:  1.0, 
+Duration: 1486 seconds
+val_loss: 0.07195, val_MRE: 1.875, val_SDR_4mm: 0.9258
+Epoch: 66, train_loss: 0.009641, train_MRE: 0.01106, train_SDR_4mm:  1.0, 
+Duration: 1511 seconds
+val_loss: 0.07188, val_MRE: 1.871, val_SDR_4mm: 0.9234
+Epoch: 67, train_loss: 0.009535, train_MRE: 0.01443, train_SDR_4mm:  1.0, 
+Duration: 1535 seconds
+val_loss: 0.07187, val_MRE: 1.863, val_SDR_4mm: 0.9234
+Epoch: 68, train_loss: 0.009505, train_MRE: 0.01271, train_SDR_4mm:  1.0, 
+Duration: 1559 seconds
+val_loss: 0.07168, val_MRE: 1.861, val_SDR_4mm: 0.9258
+Epoch: 69, train_loss: 0.009371, train_MRE: 0.009697, train_SDR_4mm:  1.0, 
+Duration: 1583 seconds
+val_loss: 0.07203, val_MRE: 1.869, val_SDR_4mm: 0.9234
+Epoch: 70, train_loss: 0.0093, train_MRE: 0.01242, train_SDR_4mm:  1.0, 
+Duration: 1608 seconds
+val_loss: 0.07202, val_MRE: 1.877, val_SDR_4mm: 0.9234
+Epoch: 71, train_loss: 0.00923, train_MRE: 0.01147, train_SDR_4mm:  1.0, 
+Duration: 1632 seconds
+val_loss: 0.07197, val_MRE: 1.878, val_SDR_4mm: 0.9234
+Epoch: 72, train_loss: 0.009166, train_MRE: 0.01073, train_SDR_4mm:  1.0, 
+Duration: 1657 seconds
+val_loss: 0.07156, val_MRE: 1.863, val_SDR_4mm: 0.9234
+Saving model checkpoint to trained/ensemble/Ensemble/2.pth.
+Epoch: 73, train_loss: 0.009084, train_MRE: 0.01164, train_SDR_4mm:  1.0, 
+Duration: 1683 seconds
+val_loss: 0.07174, val_MRE: 1.866, val_SDR_4mm: 0.9258
+Epoch: 74, train_loss: 0.009082, train_MRE: 0.01315, train_SDR_4mm:  1.0, 
+Duration: 1707 seconds
+val_loss: 0.07226, val_MRE: 1.905, val_SDR_4mm: 0.9211
+Epoch: 75, train_loss: 0.008938, train_MRE: 0.01126, train_SDR_4mm:  1.0, 
+Duration: 1731 seconds
+val_loss: 0.07201, val_MRE: 1.889, val_SDR_4mm: 0.9211
+Epoch: 76, train_loss: 0.008884, train_MRE: 0.01024, train_SDR_4mm:  1.0, 
+Duration: 1755 seconds
+val_loss: 0.07225, val_MRE: 1.875, val_SDR_4mm: 0.9234
+Epoch: 77, train_loss: 0.008807, train_MRE: 0.01064, train_SDR_4mm:  1.0, 
+Duration: 1779 seconds
+val_loss: 0.07228, val_MRE: 1.89, val_SDR_4mm: 0.9211
+Epoch: 78, train_loss: 0.008743, train_MRE: 0.009457, train_SDR_4mm:  1.0, 
+Duration: 1803 seconds
+val_loss: 0.07192, val_MRE: 1.885, val_SDR_4mm: 0.9234
+Epoch: 79, train_loss: 0.008694, train_MRE: 0.0109, train_SDR_4mm:  1.0, 
+Duration: 1827 seconds
+val_loss: 0.07238, val_MRE: 1.898, val_SDR_4mm: 0.9211
+Epoch: 80, train_loss: 0.008668, train_MRE: 0.01159, train_SDR_4mm:  1.0, 
+Duration: 1851 seconds
+val_loss: 0.07213, val_MRE: 1.869, val_SDR_4mm: 0.9258
+Epoch: 81, train_loss: 0.008591, train_MRE: 0.01102, train_SDR_4mm:  1.0, 
+Duration: 1876 seconds
+val_loss: 0.07193, val_MRE: 1.877, val_SDR_4mm: 0.9234
+Epoch: 82, train_loss: 0.00849, train_MRE: 0.00834, train_SDR_4mm:  1.0, 
+Duration: 1900 seconds
+val_loss: 0.07192, val_MRE: 1.883, val_SDR_4mm: 0.9234
+Epoch: 83, train_loss: 0.008475, train_MRE: 0.01003, train_SDR_4mm:  1.0, 
+Duration: 1924 seconds
+val_loss: 0.07236, val_MRE: 1.876, val_SDR_4mm: 0.9211
+Epoch: 84, train_loss: 0.008429, train_MRE: 0.0109, train_SDR_4mm:  1.0, 
+Duration: 1948 seconds
+val_loss: 0.07214, val_MRE: 1.906, val_SDR_4mm: 0.9211
+Epoch: 85, train_loss: 0.008345, train_MRE: 0.009081, train_SDR_4mm:  1.0, 
+Duration: 1972 seconds
+val_loss: 0.07221, val_MRE: 1.886, val_SDR_4mm: 0.9234
+Epoch: 86, train_loss: 0.008283, train_MRE: 0.009081, train_SDR_4mm:  1.0, 
+Duration: 1996 seconds
+val_loss: 0.07203, val_MRE: 1.898, val_SDR_4mm: 0.9211
+Epoch: 87, train_loss: 0.008253, train_MRE: 0.009697, train_SDR_4mm:  1.0, 
+Duration: 2020 seconds
+val_loss: 0.07202, val_MRE: 1.883, val_SDR_4mm: 0.9234
+Epoch: 88, train_loss: 0.008195, train_MRE: 0.009081, train_SDR_4mm:  1.0, 
+Duration: 2045 seconds
+val_loss: 0.07229, val_MRE: 1.916, val_SDR_4mm: 0.9211
+Epoch    88: reducing learning rate of group 0 to 1.0000e-05.
+Epoch: 89, train_loss: 0.008107, train_MRE: 0.009122, train_SDR_4mm:  1.0, 
+Duration: 2069 seconds
+val_loss: 0.07238, val_MRE: 1.894, val_SDR_4mm: 0.9234
+Epoch: 90, train_loss: 0.0081, train_MRE: 0.008882, train_SDR_4mm:  1.0, 
+Duration: 2093 seconds
+val_loss: 0.07238, val_MRE: 1.908, val_SDR_4mm: 0.9211
+Epoch: 91, train_loss: 0.00804, train_MRE: 0.008224, train_SDR_4mm:  1.0, 
+Duration: 2117 seconds
+val_loss: 0.07231, val_MRE: 1.889, val_SDR_4mm: 0.9234
+Epoch: 92, train_loss: 0.008055, train_MRE: 0.009334, train_SDR_4mm:  1.0, 
+Duration: 2141 seconds
+val_loss: 0.07233, val_MRE: 1.897, val_SDR_4mm: 0.9234
+Epoch: 93, train_loss: 0.008072, train_MRE: 0.01052, train_SDR_4mm:  1.0, 
+Duration: 2167 seconds
+val_loss: 0.07231, val_MRE: 1.896, val_SDR_4mm: 0.9234
+Epoch: 94, train_loss: 0.00804, train_MRE: 0.0081, train_SDR_4mm:  1.0, 
+Duration: 2193 seconds
+val_loss: 0.0723, val_MRE: 1.884, val_SDR_4mm: 0.9234
+Epoch: 95, train_loss: 0.008025, train_MRE: 0.008176, train_SDR_4mm:  1.0, 
+Duration: 2220 seconds
+val_loss: 0.07218, val_MRE: 1.878, val_SDR_4mm: 0.9211
+Epoch: 96, train_loss: 0.008023, train_MRE: 0.0081, train_SDR_4mm:  1.0, 
+Duration: 2246 seconds
+val_loss: 0.07237, val_MRE: 1.889, val_SDR_4mm: 0.9234
+Epoch: 97, train_loss: 0.008069, train_MRE: 0.009005, train_SDR_4mm:  1.0, 
+Duration: 2272 seconds
+val_loss: 0.07243, val_MRE: 1.901, val_SDR_4mm: 0.9234
+Epoch: 98, train_loss: 0.008024, train_MRE: 0.008464, train_SDR_4mm:  1.0, 
+Duration: 2297 seconds
+val_loss: 0.07234, val_MRE: 1.883, val_SDR_4mm: 0.9234
+Epoch: 99, train_loss: 0.008019, train_MRE: 0.008717, train_SDR_4mm:  1.0, 
+Duration: 2324 seconds
+val_loss: 0.07235, val_MRE: 1.898, val_SDR_4mm: 0.9211
+Epoch: 100, train_loss: 0.007982, train_MRE: 0.007806, train_SDR_4mm:  1.0, 
+Duration: 2351 seconds
+val_loss: 0.07236, val_MRE: 1.895, val_SDR_4mm: 0.9211
+Epoch: 101, train_loss: 0.007994, train_MRE: 0.009122, train_SDR_4mm:  1.0, 
+Duration: 2377 seconds
+val_loss: 0.07244, val_MRE: 1.898, val_SDR_4mm: 0.9211
+Epoch: 102, train_loss: 0.008021, train_MRE: 0.008464, train_SDR_4mm:  1.0, 
+Duration: 2402 seconds
+val_loss: 0.07238, val_MRE: 1.889, val_SDR_4mm: 0.9234
+Epoch: 103, train_loss: 0.008012, train_MRE: 0.009862, train_SDR_4mm:  1.0, 
+Duration: 2426 seconds
+val_loss: 0.07235, val_MRE: 1.898, val_SDR_4mm: 0.9234
+Stopping experiment due to plateauing.
+
+(base) nourpc@nourdine:~/Documents/Computer ENG MS/msc-seminer$ sh evalaluate_model.sh
+Generating predictions on data split: test1. Number of test images: 150
+Ensemble prediction.
+Log dir:logs/test1/ensemble/Ensemble/predictions
+Processed 30/150
+Processed 60/150
+Processed 90/150
+Processed 120/150
+Processed 150/150
+Model 1/1 evaluated
+Evaluating performance metrics for model Ensemble
+Split: test1, no. images: 150
+Accuracy metrics for model: Ensemble, test split: test1, mode: ensemble, samples: 15
+Mean Root Error (MRE): 1.922 mm, Standard Deviation (STD): 1.511 mm           
+Success Detection Rate           
+SDR 2mm: 0.6512           
+SDR 2.5mm: 0.7611           
+SDR 3mm: 0.8323           
+SDR 4mm: 0.9112

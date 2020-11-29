@@ -22,6 +22,8 @@ from utilities.common_utils import *
 from utilities.plotting import *
 from model import UNet
 
+from utilities.plotting import *
+
 ORIG_IMAGE_SIZE = np.array([ORIG_IMAGE_X, ORIG_IMAGE_Y])  # WxH
 random_id = int(random.uniform(0, 99999999))
 
@@ -132,13 +134,13 @@ def train():
     '''We train the model and continue with the extraction of necessary information'''
     net.train() 
    
-    for imgs, true_heatmaps, _ in train_dl:
+    for imgs, true_points, _ in train_dl:
         imgs = imgs.to(device)
-        true_heatmaps = true_heatmaps.to(device)
+        true_points = true_points.to(device)
        
         optimizer.zero_grad()
         pred_heatmaps = net(imgs)
-        loss = criterion(pred_heatmaps, true_heatmaps)
+        loss = criterion(pred_heatmaps, true_points)
         loss.backward()
         optimizer.step()
         
@@ -147,7 +149,7 @@ def train():
         train_loss += loss * actual_bs  # Weighted by batch size
         trained_examples += actual_bs
 
-        radial_errors = radial_errors_batch(pred_heatmaps, true_heatmaps, args.GAUSS_SIGMA)
+        radial_errors = radial_errors_batch(pred_heatmaps, true_points, args.GAUSS_SIGMA)
         mre = np.mean(radial_errors)
         train_mre += mre * actual_bs
         train_sdr_4mm += np.sum(radial_errors < 4)
@@ -169,21 +171,24 @@ def validate():
     val_examples = 0
     net.eval()
     with torch.no_grad():
-        for imgs, true_heatmaps, _ in valid_dl:
+        for imgs, true_points, _ in valid_dl:
             imgs = imgs.to(device)
-            true_heatmaps = true_heatmaps.to(device)
+            true_points = true_points.to(device)
 
             pred_heatmaps = net(imgs)
-            loss = criterion(pred_heatmaps, true_heatmaps)
+            loss = criterion(pred_heatmaps, true_points)
 
             actual_bs = imgs.shape[0]
             val_loss += loss * actual_bs
             val_examples += actual_bs
 
-            radial_errors = radial_errors_batch(pred_heatmaps, true_heatmaps, args.GAUSS_SIGMA)
+            radial_errors = radial_errors_batch(pred_heatmaps, true_points, args.GAUSS_SIGMA)
             mre = np.mean(radial_errors)
             val_mre += mre * actual_bs
             val_sdr_4mm += np.sum(radial_errors < 4)
+
+            # plot_imgs(imgs)
+
 
     print(f'val_loss: {val_loss / val_examples:{4}.{4}}, '
           f'val_MRE: {val_mre / val_examples:{4}.{4}}, '
