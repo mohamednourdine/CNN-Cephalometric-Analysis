@@ -25,7 +25,7 @@ torch.manual_seed(42)
 random.seed(42)
 
 device = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('cpu')
-
+# device = 'cuda:0'
 parser = argparse.ArgumentParser('')
 parser.add_argument('--MODE', required=True, type=str, choices=['ensemble'], help='Evaluation mode.')
 parser.add_argument('--MODEL_PATH', required=True, type=str, help='Path to the evaluated model(s).')
@@ -34,7 +34,7 @@ parser.add_argument('--LOG_PATH', type=str, default='logs', help='Path to model(
 parser.add_argument('--SAMPLES', type=int, default=15, help='Number of MC samples to use for prediction.')
 parser.add_argument('--IMAGES_PATH', type=str, default='data/images', help='Path to image data.')
 parser.add_argument('--ANNOT_PATH', type=str, help='Path to annotation data.')
-parser.add_argument('--IMAGE_SIZE', type=int, default=128, help='Size the test images will be rescaled to before being passed to the model.')
+parser.add_argument('--IMAGE_SIZE', type=int, default=256, help='Size the test images will be rescaled to before being passed to the model.')
 parser.add_argument('--GAUSS_SIGMA', type=float, default=5, help='Sigma of the Gaussian kernel used to generate ground truth heatmaps for the landmarks.')
 parser.add_argument('--GAUSS_AMPLITUDE', type=float, default=1000.0)
 parser.add_argument('--BATCH_SIZE', type=int, default=30)
@@ -101,7 +101,7 @@ def predict(model_path, test_time_dropout=False):
     return df
 
 
-log_path = Path(args.LOG_PATH) / f'{args.DATA_SPLIT}';
+log_path = Path(args.LOG_PATH) / f'{args.DATA_SPLIT}'
 log_path.mkdir(parents=True, exist_ok=True)
 args.MODEL_PATH = Path(args.MODEL_PATH)
 

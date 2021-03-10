@@ -38,7 +38,7 @@ parser.add_argument('--FILTERS', type=lambda layers: [int(layer) for layer in la
 parser.add_argument('--DOWN_DROP', type=lambda layers: [float(layer) for layer in layers.split(',')], default='0.4,0.4,0.4,0.4')
 parser.add_argument('--UP_DROP', type=lambda layers: [float(layer) for layer in layers.split(',')], default='0.4,0.4,0.4,0.4')
 parser.add_argument('--BATCH_SIZE', type=int, default=8)
-parser.add_argument('--IMAGE_SIZE', type=int, default=128)
+parser.add_argument('--IMAGE_SIZE', type=int, default=256)
 parser.add_argument('--GAUSS_SIGMA', type=float, default=5.0)
 parser.add_argument('--GAUSS_AMPLITUDE', type=float, default=1000.0)
 parser.add_argument('--USE_ELASTIC_TRANS', type=bool, default=False)
@@ -229,7 +229,7 @@ try:
         if num_bad_epochs > 30:
             print('Stopping experiment due to plateauing.')
             break
-    plot_training_result(trained_losses, trained_mre, trained_sdr_4mm)
+    # plot_training_result(trained_losses, trained_mre, trained_sdr_4mm)
 except KeyboardInterrupt:
     print('-' * 89)
     print('Exiting from training early')
