@@ -1,6 +1,16 @@
 # Cephalometric Analysis using CNN
 This project contains the work conducted for my MsC Thesis at KTUN, Computer Engineering Department. Cephalometry is defined as the scientific measurement and analysis of the human cranium. Cephalometric X-ray landmark localization is one of important research issues for medical science. This measurement is useful in many applications, such as orthodontic for cephalometric evaluation, planning treatment, and assessment of craniofacial growth. Since manual identification of predefined anatomical landmarks is very inconvenient and tedious, automated landmark identification is a very useful technique for Cephalometric X-ray. 
 
+## Usage
+In order to run this project, run the project_env.yml file using conda. If conda is not install please go the official website of Anaconda and install it before activating this environment. 
+
+
+```javascript
+conda env create -f project_env.yml
+```
+
+- [Anaconda: The World's Most Popular Data Science Platform](https://www.anaconda.com/)
+
 # Deep Learning Papers on Medical Image Analysis
 
 ## Background
