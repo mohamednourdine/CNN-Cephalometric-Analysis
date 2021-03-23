@@ -7,6 +7,8 @@ In order to run this project, run the project_env.yml file using conda. If conda
 
 ```javascript
 conda env create -f project_env.yml
+
+conda install -f project_env.yml
 ```
 
 - [Anaconda: The World's Most Popular Data Science Platform](https://www.anaconda.com/)
