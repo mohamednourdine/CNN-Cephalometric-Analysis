@@ -22,7 +22,7 @@ def get_true_landmarks(annotations_path, image_path):
     ''' 
     Returns an array of true landmarks for an image, and return an array of the results
     '''
-    image_id = image_path.stem
+    image_id = image_path.stem     #The stem of the filename identified by the path (i.e. the filename without the final extension).
     annots = (annotations_path / f'{image_id}.txt').read_text()
     annots = annots.split('\n')[:N_LANDMARKS]
     annots = [l.split(',') for l in annots]
@@ -120,7 +120,7 @@ def get_radial_errors_mm_for_image(true_landmarks, predicted_landmarks):
 
 def get_accuracy_metrics(radial_errors_mm_all):
     ''' 
-    This fucntiuon Computes the accuracy metrics from radial errors by getting the mean and standard deviation of the 
+    This function Computes the accuracy metrics from radial errors by getting the mean and standard deviation of the 
     results obtaine. This results then compaire to the actial values and printed out.
     '''
     mre = radial_errors_mm_all.mean()

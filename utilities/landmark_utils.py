@@ -32,6 +32,10 @@ def get_annots_for_image(annotations_path, image_path, rescaled_image_size=None,
     annots = [l.split(',') for l in annots]
     annots = [(float(l[0]), float(l[1])) for l in annots];
     annots = np.array(annots)
+
+    '''
+    Rescale the images annotations if the images are rescaled before returning the array. 
+    '''
     if rescaled_image_size is not None:
         scale = np.array([rescaled_image_size, rescaled_image_size], dtype=float) / orig_image_size  # WxH
         annots = np.around(annots * scale).astype('int32')
@@ -78,13 +82,13 @@ class LandmarkDataset(Dataset):
         return len(self.image_fnames)
 
     def __getitem__(self, idx):
-        # So that each thread has a different transform when multiprocessing
+        # Here we get the items individually so that each thread has a different transform when multiprocessing
         
         # With the seed reset (every time), the same set of numbers will appear every time.
         seed = int(random.random() * 10000000)
         np.random.seed(seed)
 
-        # Image
+        # Image, we basicall convert the images to Gray scaled images.
         x = PIL.Image.open(self.image_fnames[idx]).convert('L')
         image_size = x.size[0]
         x = np.array(x)

@@ -24,7 +24,7 @@ parser.add_argument('--SAMPLES', type=int, default=15, help='Number of MC sample
 parser.add_argument('--MODEL_NAME', type=str, required=True, help='Name of the evaluated model(s).')
 parser.add_argument('--ANNOT_PATH', type=str, default='data/AnnotationsByMD/400_senior', help='Path to annotation data.')
 parser.add_argument('--IMAGES_PATH', type=str, default='data/images', help='Path to image data.')
-parser.add_argument('--IMAGE_SIZE', type=int, default=256, help='Size the test images will be rescaled to before being passed to the model.')
+parser.add_argument('--IMAGE_SIZE', type=int, default=128, help='Size the test images will be rescaled to before being passed to the model.')
 args = parser.parse_args()
 
 args.LOG_PATH = Path(args.LOG_PATH)

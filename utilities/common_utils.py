@@ -2,8 +2,9 @@ from pathlib import Path
 import numpy as np
 from scipy import ndimage
 
-# Here are the Cephallometry dataset properties set prior the trainig process
-ORIG_IMAGE_X = 1935
+# Here are the Cephallometry dataset properties set prior the training process
+# Original sizes of the images
+ORIG_IMAGE_X = 1935 
 ORIG_IMAGE_Y = 2400
 PIXELS_PER_MM = 10
 N_LANDMARKS = 19
