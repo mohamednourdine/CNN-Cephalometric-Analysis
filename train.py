@@ -59,10 +59,10 @@ print(f'Training model {args.MODEL_NAME}')
 
 # Data paths
 path = Path(args.DATA_PATH)
-annotations_path = path / 'AnnotationsByMD' / '400_senior'
+annotations_path = path / 'AugResults' / 'labels'
 model_path = Path(args.MODEL_PATH) if args.MODEL_PATH is not None else path / 'models'
 model_path.mkdir(parents=True, exist_ok=True)
-train_path = path / f'images/{args.IMAGE_SIZE}/train'
+train_path = path / f'images/{args.IMAGE_SIZE}/testTrain'
 
 # Datasets, DataLoaders
 fnames = list_files(train_path)
@@ -103,9 +103,9 @@ print(f'Graphic Cart Used for the experiment: {device}')
 # unet model
 if args.MODEL == 'unet':
     net = UNet(in_ch=3, out_ch=N_LANDMARKS, down_drop=args.DOWN_DROP, up_drop=args.UP_DROP)
-    print(net)
+   
 net.to(device);
-count_parameters(net)
+# count_parameters(net)
 # Optimizer + loss
 criterion = nn.MSELoss()
 optimizer = torch.optim.Adam(net.parameters(), lr=args.LEARN_RATE, weight_decay=args.WEIGHT_DECAY)
@@ -135,6 +135,7 @@ def train():
     net.train() 
    
     for imgs, true_points, _ in train_dl:
+        
         imgs = imgs.to(device)
         true_points = true_points.to(device)
        
@@ -153,7 +154,12 @@ def train():
         mre = np.mean(radial_errors)
         train_mre += mre * actual_bs
         train_sdr_4mm += np.sum(radial_errors < 4)
-        
+        # print(f'\nEpoch: {e}, train_loss: {train_loss / trained_examples:{4}.{4}}, '
+        #   f'train_MRE: {train_mre / trained_examples:{4}.{4}}, '
+        #   f'train_SDR_4mm: {train_sdr_4mm / (trained_examples * N_LANDMARKS):{4}.{4}}, '
+        #   f'duration: {time.time() - start_time:.0f} seconds', end='')
+        # print(f'\nDuration: {time.time() - start_time:.0f} seconds') # print the time elapsed 
+
     trained_losses.append(f'{train_loss / trained_examples:{4}.{4}}')
     trained_mre.append(f'{train_mre / trained_examples:{4}.{4}}')
     trained_sdr_4mm.append(f'{train_sdr_4mm / (trained_examples * N_LANDMARKS):{4}.{4}}')
@@ -162,6 +168,7 @@ def train():
           f'train_MRE: {train_mre / trained_examples:{4}.{4}}, '
           f'train_SDR_4mm: {train_sdr_4mm / (trained_examples * N_LANDMARKS):{4}.{4}}, ', end='')
     print(f'\nDuration: {time.time() - start_time:.0f} seconds') # print the time elapsed 
+    print("____________________________________________________________________________")
     
     return train_loss / trained_examples
 

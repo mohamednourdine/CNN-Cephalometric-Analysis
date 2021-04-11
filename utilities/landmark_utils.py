@@ -45,8 +45,11 @@ def get_annots_for_image(annotations_path, image_path, rescaled_image_size=None,
 def create_true_heatmaps(annots, image_size, amplitude):
     heatmaps = np.zeros((annots.shape[0], image_size, image_size))
     for i, landmark_pos in enumerate(annots):
-        x, y = landmark_pos
-        heatmaps[i, y, x] = amplitude  # Swap WxH to HxW
+        try:
+            x, y = landmark_pos
+            heatmaps[i, y, x] = amplitude  # Swap WxH to HxW
+        except:
+            print(landmark_pos)
     return heatmaps
 
 
@@ -132,7 +135,6 @@ class LandmarkDataset(Dataset):
             if self.horizontal_flip and do_flip:
                 for i in range(annots.shape[0]):
                     annots[i][0] += 2 * (image_size / 2.0 - annots[i][0])
-
             # Create unfiltered heatmaps
             y = create_true_heatmaps(annots, image_size, amplitude=self.gauss_amplitude)
 
@@ -204,3 +206,26 @@ def radial_errors_batch(preds, targs, gauss_sigma):
     for i in range(batch_size):
         batch_radial_errors[i] = radial_errors_calcalation(preds[i], targs[i], gauss_sigma)
     return batch_radial_errors
+
+def aug_and_save(img, img_name, label, aug_list, base_path):
+    kp = [list_to_kp(label)]
+    img = shrink.augment_image(img)
+    kp = shrink.augment_keypoints(kp)
+    img_save_name = base_path + "/" + img_name + "_aug{}".format(0)
+    io.imsave(img_save_name + ".bmp", img)
+    with open(img_save_name + ".txt", "w") as lf:
+            stringified = [str(tup) for tup in kp_to_list(kp[0].keypoints)]
+            stringified = [s.replace("(", "").replace(")","") for s in stringified]
+            lf.write("\n".join(stringified))
+    for i, aug in enumerate(aug_list):
+        img_aug = aug.augment_image(img)
+        kp_aug = aug.augment_keypoints(kp)
+        # save img:
+        img_save_name = base_path + "/" + img_name + "_aug{}".format(i+1)
+        io.imsave(img_save_name + ".bmp", img_aug)
+        # save labelfile:
+        print(img_save_name)
+        with open(img_save_name + ".txt", "w") as lf:
+            stringified = [str(tup) for tup in kp_to_list(kp_aug[0].keypoints)]
+            stringified = [s.replace("(", "").replace(")","") for s in stringified]
+            lf.write("\n".join(stringified))
