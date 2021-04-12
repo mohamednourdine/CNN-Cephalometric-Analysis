@@ -18,13 +18,13 @@ from model import UNet
 
 parser = argparse.ArgumentParser('')
 parser.add_argument('--MODE', type=str, required=True, choices=['ensemble'], help='Evaluation mode.')
-parser.add_argument('--DATA_SPLIT', type=str, default='test1', choices=['train', 'test1', 'test2'], help='Which data split to evaluate on.')
+parser.add_argument('--DATA_SPLIT', type=str, default='test', choices=['train', 'test1', 'test2', 'test'], help='Which data split to evaluate on.')
 parser.add_argument('--LOG_PATH', type=str, default='logs', help='Path to model logs.')
 parser.add_argument('--SAMPLES', type=int, default=15, help='Number of MC samples to use for prediction.')
 parser.add_argument('--MODEL_NAME', type=str, required=True, help='Name of the evaluated model(s).')
 parser.add_argument('--ANNOT_PATH', type=str, default='data/AnnotationsByMD/400_senior', help='Path to annotation data.')
 parser.add_argument('--IMAGES_PATH', type=str, default='data/images', help='Path to image data.')
-parser.add_argument('--IMAGE_SIZE', type=int, default=128, help='Size the test images will be rescaled to before being passed to the model.')
+parser.add_argument('--IMAGE_SIZE', type=int, default=256, help='Size the test images will be rescaled to before being passed to the model.')
 args = parser.parse_args()
 
 args.LOG_PATH = Path(args.LOG_PATH)

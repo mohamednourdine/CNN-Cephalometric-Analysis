@@ -38,7 +38,7 @@ parser.add_argument('--FILTERS', type=lambda layers: [int(layer) for layer in la
 parser.add_argument('--DOWN_DROP', type=lambda layers: [float(layer) for layer in layers.split(',')], default='0.4,0.4,0.4,0.4')
 parser.add_argument('--UP_DROP', type=lambda layers: [float(layer) for layer in layers.split(',')], default='0.4,0.4,0.4,0.4')
 parser.add_argument('--BATCH_SIZE', type=int, default=8)
-parser.add_argument('--IMAGE_SIZE', type=int, default=128)
+parser.add_argument('--IMAGE_SIZE', type=int, default=256)
 parser.add_argument('--GAUSS_SIGMA', type=float, default=5.0)
 parser.add_argument('--GAUSS_AMPLITUDE', type=float, default=1000.0)
 parser.add_argument('--USE_ELASTIC_TRANS', type=bool, default=False)
@@ -59,10 +59,10 @@ print(f'Training model {args.MODEL_NAME}')
 
 # Data paths
 path = Path(args.DATA_PATH)
-annotations_path = path / 'AugResults' / 'labels'
+annotations_path = path / 'Annots'
 model_path = Path(args.MODEL_PATH) if args.MODEL_PATH is not None else path / 'models'
 model_path.mkdir(parents=True, exist_ok=True)
-train_path = path / f'images/{args.IMAGE_SIZE}/testTrain'
+train_path = path / f'images/{args.IMAGE_SIZE}/train'
 
 # Datasets, DataLoaders
 fnames = list_files(train_path)
@@ -70,7 +70,7 @@ n_valid = int(args.VALID_RATIO * len(fnames))
 train_fnames = fnames[:-n_valid]
 valid_fnames = fnames[-n_valid:]
 print(f'Number of train images: {len(train_fnames)}, Number of validation images: {len(valid_fnames)}')
-num_workers = 8
+num_workers = 0
 elastic_trans = None
 affine_trans = None
 if args.USE_ELASTIC_TRANS:

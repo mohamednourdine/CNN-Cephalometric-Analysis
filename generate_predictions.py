@@ -13,6 +13,7 @@ import shutil
 import random
 import io
 import sys
+# import parallelTestModule
 from pathlib import Path
 
 from utilities.common_utils import *
@@ -29,7 +30,7 @@ device = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('
 parser = argparse.ArgumentParser('')
 parser.add_argument('--MODE', required=True, type=str, choices=['ensemble'], help='Evaluation mode.')
 parser.add_argument('--MODEL_PATH', required=True, type=str, help='Path to the evaluated model(s).')
-parser.add_argument('--DATA_SPLIT', type=str, choices=['train, test1, test2'], default='test1', help='Which data split to evaluate on.')
+parser.add_argument('--DATA_SPLIT', type=str, choices=['train, test1, test2, test'], default='test', help='Which data split to evaluate on.')
 parser.add_argument('--LOG_PATH', type=str, default='logs', help='Path to model(s).')
 parser.add_argument('--SAMPLES', type=int, default=15, help='Number of MC samples to use for prediction.')
 parser.add_argument('--IMAGES_PATH', type=str, default='data/images', help='Path to image data.')
@@ -100,32 +101,32 @@ def predict(model_path, test_time_dropout=False):
             print(f'Processed {n_processed}/{n_eval_images}')
     return df
 
+if __name__ ==  '__main__':
+    log_path = Path(args.LOG_PATH) / f'{args.DATA_SPLIT}'
+    log_path.mkdir(parents=True, exist_ok=True)
+    args.MODEL_PATH = Path(args.MODEL_PATH)
 
-log_path = Path(args.LOG_PATH) / f'{args.DATA_SPLIT}'
-log_path.mkdir(parents=True, exist_ok=True)
-args.MODEL_PATH = Path(args.MODEL_PATH)
+    # Eval data
+    data_dir = Path(args.IMAGES_PATH) / f'{args.IMAGE_SIZE}/{args.DATA_SPLIT}'
+    data_fpaths = list_files(data_dir)
+    n_eval_images = len(data_fpaths)
+    print(f'Generating predictions on data split: {args.DATA_SPLIT}. Number of test images: {n_eval_images}')
+    eval_ds = LandmarkDataset(data_fpaths, args.ANNOT_PATH, args.GAUSS_SIGMA, args.GAUSS_AMPLITUDE)
+    eval_dl = DataLoader(eval_ds, args.BATCH_SIZE, shuffle=False, num_workers=1)
 
-# Eval data
-data_dir = Path(args.IMAGES_PATH) / f'{args.IMAGE_SIZE}/{args.DATA_SPLIT}'
-data_fpaths = list_files(data_dir)
-n_eval_images = len(data_fpaths)
-print(f'Generating predictions on data split: {args.DATA_SPLIT}. Number of test images: {n_eval_images}')
-eval_ds = LandmarkDataset(data_fpaths, args.ANNOT_PATH, args.GAUSS_SIGMA, args.GAUSS_AMPLITUDE)
-eval_dl = DataLoader(eval_ds, args.BATCH_SIZE, shuffle=False, num_workers=1)
+    model_name = args.MODEL_PATH.stem
+    model_paths = list_files(args.MODEL_PATH)
 
-model_name = args.MODEL_PATH.stem
-model_paths = list_files(args.MODEL_PATH)
+    if len(model_paths) > args.SAMPLES:
+        model_paths = model_paths[:args.SAMPLES]
 
-if len(model_paths) > args.SAMPLES:
-    model_paths = model_paths[:args.SAMPLES]
-
-log_path = log_path / f'ensemble/{model_name}/predictions';
-log_path.mkdir(parents=True, exist_ok=True)
-print('Ensemble prediction.')
-print(f'Log dir:{log_path}')
-for i, model_path in enumerate(model_paths):
-    predictions = predict(model_path, test_time_dropout=False)
-    model_name = model_path.stem
-    predictions.to_csv(log_path / f'{model_name}.csv')
-    print(f'Model {i + 1}/{len(model_paths)} evaluated')
+    log_path = log_path / f'ensemble/{model_name}/predictions';
+    log_path.mkdir(parents=True, exist_ok=True)
+    print('Ensemble prediction.')
+    print(f'Log dir:{log_path}')
+    for i, model_path in enumerate(model_paths):
+        predictions = predict(model_path, test_time_dropout=False)
+        model_name = model_path.stem
+        predictions.to_csv(log_path / f'{model_name}.csv')
+        print(f'Model {i + 1}/{len(model_paths)} evaluated')
     
