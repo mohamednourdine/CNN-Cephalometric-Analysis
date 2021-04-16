@@ -18,7 +18,7 @@ from model import UNet
 
 parser = argparse.ArgumentParser('')
 parser.add_argument('--MODE', type=str, required=True, choices=['ensemble'], help='Evaluation mode.')
-parser.add_argument('--DATA_SPLIT', type=str, default='test', choices=['train', 'test1', 'test2', 'test'], help='Which data split to evaluate on.')
+parser.add_argument('--DATA_SPLIT', type=str, default='test1', choices=['train', 'test1', 'test2'], help='Which data split to evaluate on.')
 parser.add_argument('--LOG_PATH', type=str, default='logs', help='Path to model logs.')
 parser.add_argument('--SAMPLES', type=int, default=15, help='Number of MC samples to use for prediction.')
 parser.add_argument('--MODEL_NAME', type=str, required=True, help='Name of the evaluated model(s).')
@@ -27,11 +27,19 @@ parser.add_argument('--IMAGES_PATH', type=str, default='data/images', help='Path
 parser.add_argument('--IMAGE_SIZE', type=int, default=256, help='Size the test images will be rescaled to before being passed to the model.')
 args = parser.parse_args()
 
+
+# path = Path(args.DATA_PATH)
+# annotations_path = path / f'images/1px/{args.IMAGE_SIZE}/train_annots'
+# model_path = Path(args.MODEL_PATH) if args.MODEL_PATH is not None else path / 'models'
+# model_path.mkdir(parents=True, exist_ok=True)
+# train_path = path / f'images/1px/{args.IMAGE_SIZE}/train'
+
+
 args.LOG_PATH = Path(args.LOG_PATH)
 args.ANNOT_PATH = Path(args.ANNOT_PATH)
 
 # Get test files
-test_dir = Path(args.IMAGES_PATH)/f'{args.IMAGE_SIZE}/{args.DATA_SPLIT}'
+test_dir = Path(args.IMAGES_PATH)/f'1px/{args.IMAGE_SIZE}/{args.DATA_SPLIT}'
 test_files = list_files(test_dir)
 n_test = len(test_files)
 print(f'Evaluating performance metrics for model {args.MODEL_NAME}')
