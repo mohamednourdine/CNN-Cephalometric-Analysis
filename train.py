@@ -59,10 +59,10 @@ print(f'Training model {args.MODEL_NAME}')
 
 # Data paths
 path = Path(args.DATA_PATH)
-annotations_path = path / f'images/1px_3px/{args.IMAGE_SIZE}/train_annots'
+annotations_path = path / f'images/noaug/{args.IMAGE_SIZE}/train_annots'
 model_path = Path(args.MODEL_PATH) if args.MODEL_PATH is not None else path / 'models'
 model_path.mkdir(parents=True, exist_ok=True)
-train_path = path / f'images/1px_3px/{args.IMAGE_SIZE}/train'
+train_path = path / f'images/noaug/{args.IMAGE_SIZE}/train'
 
 # Datasets, DataLoaders
 fnames = list_files(train_path)

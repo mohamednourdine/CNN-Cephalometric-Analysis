@@ -29,17 +29,17 @@ args = parser.parse_args()
 
 
 # path = Path(args.DATA_PATH)
-# annotations_path = path / f'images/1px_3px/{args.IMAGE_SIZE}/train_annots'
+# annotations_path = path / f'images/noaug/{args.IMAGE_SIZE}/train_annots'
 # model_path = Path(args.MODEL_PATH) if args.MODEL_PATH is not None else path / 'models'
 # model_path.mkdir(parents=True, exist_ok=True)
-# train_path = path / f'images/1px_3px/{args.IMAGE_SIZE}/train'
+# train_path = path / f'images/noaug/{args.IMAGE_SIZE}/train'
 
 
 args.LOG_PATH = Path(args.LOG_PATH)
 args.ANNOT_PATH = Path(args.ANNOT_PATH)
 
 # Get test files
-test_dir = Path(args.IMAGES_PATH)/f'1px_3px/{args.IMAGE_SIZE}/{args.DATA_SPLIT}'
+test_dir = Path(args.IMAGES_PATH)/f'noaug/{args.IMAGE_SIZE}/{args.DATA_SPLIT}'
 test_files = list_files(test_dir)
 n_test = len(test_files)
 print(f'Evaluating performance metrics for model {args.MODEL_NAME}')

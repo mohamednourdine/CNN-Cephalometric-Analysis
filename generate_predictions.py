@@ -107,7 +107,7 @@ if __name__ ==  '__main__':
     args.MODEL_PATH = Path(args.MODEL_PATH)
 
     # Eval data
-    data_dir = Path(args.IMAGES_PATH) / f'1px_3px/{args.IMAGE_SIZE}/{args.DATA_SPLIT}'
+    data_dir = Path(args.IMAGES_PATH) / f'noaug/{args.IMAGE_SIZE}/{args.DATA_SPLIT}'
     data_fpaths = list_files(data_dir)
     n_eval_images = len(data_fpaths)
     print(f'Generating predictions on data split: {args.DATA_SPLIT}. Number of test images: {n_eval_images}')
