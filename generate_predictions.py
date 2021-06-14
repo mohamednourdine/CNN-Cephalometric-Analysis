@@ -35,7 +35,7 @@ parser.add_argument('--LOG_PATH', type=str, default='logs', help='Path to model(
 parser.add_argument('--SAMPLES', type=int, default=15, help='Number of MC samples to use for prediction.')
 parser.add_argument('--IMAGES_PATH', type=str, default='data/images', help='Path to image data.')
 parser.add_argument('--ANNOT_PATH', type=str, help='Path to annotation data.')
-parser.add_argument('--IMAGE_SIZE', type=int, default=256, help='Size the test images will be rescaled to before being passed to the model.')
+parser.add_argument('--IMAGE_SIZE', type=int, default=128, help='Size the test images will be rescaled to before being passed to the model.')
 parser.add_argument('--GAUSS_SIGMA', type=float, default=5, help='Sigma of the Gaussian kernel used to generate ground truth heatmaps for the landmarks.')
 parser.add_argument('--GAUSS_AMPLITUDE', type=float, default=1000.0)
 parser.add_argument('--BATCH_SIZE', type=int, default=30)
@@ -107,7 +107,7 @@ if __name__ ==  '__main__':
     args.MODEL_PATH = Path(args.MODEL_PATH)
 
     # Eval data
-    data_dir = Path(args.IMAGES_PATH) / f'noaug/{args.IMAGE_SIZE}/{args.DATA_SPLIT}'
+    data_dir = Path(args.IMAGES_PATH) / f'1px_2px_3px/{args.IMAGE_SIZE}/{args.DATA_SPLIT}'
     data_fpaths = list_files(data_dir)
     n_eval_images = len(data_fpaths)
     print(f'Generating predictions on data split: {args.DATA_SPLIT}. Number of test images: {n_eval_images}')

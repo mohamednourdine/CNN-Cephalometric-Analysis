@@ -24,22 +24,14 @@ parser.add_argument('--SAMPLES', type=int, default=15, help='Number of MC sample
 parser.add_argument('--MODEL_NAME', type=str, required=True, help='Name of the evaluated model(s).')
 parser.add_argument('--ANNOT_PATH', type=str, default='data/AnnotationsByMD/400_senior', help='Path to annotation data.')
 parser.add_argument('--IMAGES_PATH', type=str, default='data/images', help='Path to image data.')
-parser.add_argument('--IMAGE_SIZE', type=int, default=256, help='Size the test images will be rescaled to before being passed to the model.')
+parser.add_argument('--IMAGE_SIZE', type=int, default=128, help='Size the test images will be rescaled to before being passed to the model.')
 args = parser.parse_args()
-
-
-# path = Path(args.DATA_PATH)
-# annotations_path = path / f'images/noaug/{args.IMAGE_SIZE}/train_annots'
-# model_path = Path(args.MODEL_PATH) if args.MODEL_PATH is not None else path / 'models'
-# model_path.mkdir(parents=True, exist_ok=True)
-# train_path = path / f'images/noaug/{args.IMAGE_SIZE}/train'
-
 
 args.LOG_PATH = Path(args.LOG_PATH)
 args.ANNOT_PATH = Path(args.ANNOT_PATH)
 
 # Get test files
-test_dir = Path(args.IMAGES_PATH)/f'noaug/{args.IMAGE_SIZE}/{args.DATA_SPLIT}'
+test_dir = Path(args.IMAGES_PATH)/f'1px_2px_3px/{args.IMAGE_SIZE}/{args.DATA_SPLIT}'
 test_files = list_files(test_dir)
 n_test = len(test_files)
 print(f'Evaluating performance metrics for model {args.MODEL_NAME}')
