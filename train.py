@@ -38,7 +38,7 @@ parser.add_argument('--FILTERS', type=lambda layers: [int(layer) for layer in la
 parser.add_argument('--DOWN_DROP', type=lambda layers: [float(layer) for layer in layers.split(',')], default='0.4,0.4,0.4,0.4')
 parser.add_argument('--UP_DROP', type=lambda layers: [float(layer) for layer in layers.split(',')], default='0.4,0.4,0.4,0.4')
 parser.add_argument('--BATCH_SIZE', type=int, default=8)
-parser.add_argument('--IMAGE_SIZE', type=int, default=128)
+parser.add_argument('--IMAGE_SIZE', type=int, default=256)
 parser.add_argument('--GAUSS_SIGMA', type=float, default=5.0)
 parser.add_argument('--GAUSS_AMPLITUDE', type=float, default=1000.0)
 parser.add_argument('--USE_ELASTIC_TRANS', type=bool, default=False)
@@ -59,10 +59,10 @@ print(f'Training model {args.MODEL_NAME}')
 
 # Data paths
 path = Path(args.DATA_PATH)
-annotations_path = path / f'images/1px_2px_3px/{args.IMAGE_SIZE}/train_annots'
+annotations_path = path / f'images/1px_3px/{args.IMAGE_SIZE}/train_annots'
 model_path = Path(args.MODEL_PATH) if args.MODEL_PATH is not None else path / 'models'
 model_path.mkdir(parents=True, exist_ok=True)
-train_path = path / f'images/1px_2px_3px/{args.IMAGE_SIZE}/train'
+train_path = path / f'images/1px_3px/{args.IMAGE_SIZE}/train'
 
 # Datasets, DataLoaders
 fnames = list_files(train_path)
@@ -126,7 +126,7 @@ trained_sdr_4mm = []
 
 def train():
     trained_examples = 0
-    train_loss, train_mre, train_sdr_4mm = 0, 0, 0
+    train_loss, train_mre, train_sdr_2mm,train_sdr_2_5mm,train_sdr_3mm,train_sdr_4mm = 0, 0, 0, 0, 0, 0
    
    
     
@@ -153,6 +153,9 @@ def train():
         radial_errors = radial_errors_batch(pred_heatmaps, true_points, args.GAUSS_SIGMA)
         mre = np.mean(radial_errors)
         train_mre += mre * actual_bs
+        train_sdr_2mm += np.sum(radial_errors < 2)
+        train_sdr_2_5mm += np.sum(radial_errors < 2.5)
+        train_sdr_3mm += np.sum(radial_errors < 3)
         train_sdr_4mm += np.sum(radial_errors < 4)
         # print(f'\nEpoch: {e}, train_loss: {train_loss / trained_examples:{4}.{4}}, '
         #   f'train_MRE: {train_mre / trained_examples:{4}.{4}}, '
@@ -166,15 +169,18 @@ def train():
     
     print(f'Epoch: {e}, train_loss: {train_loss / trained_examples:{4}.{4}}, '
           f'train_MRE: {train_mre / trained_examples:{4}.{4}}, '
+          f'train_SDR_2mm: {train_sdr_2mm / (trained_examples * N_LANDMARKS):{4}.{4}}, '
+          f'train_SDR_2_5mm: {train_sdr_2_5mm / (trained_examples * N_LANDMARKS):{4}.{4}}, '
+          f'train_SDR_3mm: {train_sdr_3mm / (trained_examples * N_LANDMARKS):{4}.{4}}, '
           f'train_SDR_4mm: {train_sdr_4mm / (trained_examples * N_LANDMARKS):{4}.{4}}, ', end='')
     print(f'\nDuration: {time.time() - start_time:.0f} seconds') # print the time elapsed 
-    print("____________________________________________________________________________")
-    
+      
     return train_loss / trained_examples
 
 
 def validate():
-    val_loss, val_mre, val_sdr_4mm = 0, 0, 0
+
+    val_loss, val_mre, val_sdr_2mm, val_sdr_2_5mm, val_sdr_3mm, val_sdr_4mm = 0, 0, 0, 0, 0, 0
     val_examples = 0
     net.eval()
     with torch.no_grad():
@@ -192,15 +198,23 @@ def validate():
             radial_errors = radial_errors_batch(pred_heatmaps, true_points, args.GAUSS_SIGMA)
             mre = np.mean(radial_errors)
             val_mre += mre * actual_bs
+            val_sdr_2mm += np.sum(radial_errors < 2)
+            val_sdr_2_5mm += np.sum(radial_errors < 2.5)
+            val_sdr_3mm += np.sum(radial_errors < 3)
             val_sdr_4mm += np.sum(radial_errors < 4)
 
             # plot_imgs(imgs)
 
-
     print(f'val_loss: {val_loss / val_examples:{4}.{4}}, '
           f'val_MRE: {val_mre / val_examples:{4}.{4}}, '
+          f'val_SDR_2mm: {val_sdr_2mm / (val_examples * N_LANDMARKS):{4}.{4}}',
+          f'val_SDR_2_5mm: {val_sdr_2_5mm / (val_examples * N_LANDMARKS):{4}.{4}}',
+          f'val_SDR_3mm: {val_sdr_3mm / (val_examples * N_LANDMARKS):{4}.{4}}',
           f'val_SDR_4mm: {val_sdr_4mm / (val_examples * N_LANDMARKS):{4}.{4}}')
-    return val_loss / val_examples, val_sdr_4mm / (val_examples * N_LANDMARKS), val_mre / val_examples
+
+    print("____________________________________________________________________________")
+
+    return val_loss / val_examples, val_sdr_2mm / (val_examples * N_LANDMARKS) ,val_sdr_2_5mm / (val_examples * N_LANDMARKS) ,val_sdr_3mm / (val_examples * N_LANDMARKS), val_sdr_4mm / (val_examples * N_LANDMARKS), val_mre / val_examples
 
 
 # Loop over epochs
@@ -209,7 +223,7 @@ num_bad_epochs = 0
 try:
     for e in range(1, args.EPOCHS + 1):
         train_loss = train()
-        val_loss, val_sdr_4mm, val_mre = validate()
+        val_loss, val_sdr_2mm, val_sdr_2_5mm, val_sdr_3mm, val_sdr_4mm, val_mre = validate()
         scheduler.step(val_loss)
 
         if args.SAVE_EPOCHS is not None and e in args.SAVE_EPOCHS:
