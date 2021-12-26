@@ -127,7 +127,6 @@ def get_radial_errors_mm_for_individual_landmarks(radial_errors):
     for lm in range(N_LANDMARKS):
         sdr_lm = np.array([], dtype = np.float32)
 
-        print(f"Null {sdr_lm}")
         for errors in np.array(radial_errors):
             sdr_lm = np.append(sdr_lm, errors[lm])
 

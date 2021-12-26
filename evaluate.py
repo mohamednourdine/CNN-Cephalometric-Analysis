@@ -48,6 +48,8 @@ predictions_df = read_prediction_files_as_df(list_files(model_log_dir))
 
 # Compute metrics
 radial_errors_all = np.zeros((len(test_files), N_LANDMARKS))
+
+print(test_files[2])
 for i, image_file in enumerate(test_files):
     # Compute the statistics across all samples for the image
     landmark_samples, activation_samples = get_predictions_for_image(predictions_df, image_file.name, args.SAMPLES)
@@ -59,14 +61,32 @@ for i, image_file in enumerate(test_files):
     radial_errors_all[i] = get_radial_errors_mm_for_image(true_landmarks, predicted_landmarks_mean)
 
 
+image_file = test_files[2];
+# Compute the statistics across all samples for the image
+landmark_samples, activation_samples = get_predictions_for_image(predictions_df, image_file.name, args.SAMPLES)
+predicted_landmarks_mean, predicted_landmarks_var = get_predicted_landmarks_for_image(landmark_samples)
+activation_mean, activation_var = get_predicted_activations_for_image(activation_samples)
 
-print('======================================')
-print(f'Accuracy metrics for  model: {args.MODEL_NAME}, test split: {args.DATA_SPLIT}, mode: {args.MODE}, samples: {args.SAMPLES}')
+# Compute radial errors
+true_landmarks = true_landmarks_dict[image_file.name]
+radial_errors_all = get_radial_errors_mm_for_image(true_landmarks, predicted_landmarks_mean)
+
+for lm in range(len(true_landmarks)):
+    print(f"True Landmarks: {true_landmarks[lm]}  - Predicted Landmark: {predicted_landmarks_mean[lm]}"
+          f"- MRE: {radial_errors_all[lm]:{2}.{2}}\n")
+
 
 metrics = get_accuracy_metrics(radial_errors_all)
 print_accuracy_metrics(metrics)
 
-print (len(radial_errors_all))
+
+
+print('======================================')
+# print(f'Accuracy metrics for  model: {args.MODEL_NAME}, test split: {args.DATA_SPLIT}, mode: {args.MODE}, samples: {args.SAMPLES}')
+metrics = get_accuracy_metrics(radial_errors_all)
+print_accuracy_metrics(metrics)
+
+# print (len(radial_errors_all))
 get_radial_errors_mm_for_individual_landmarks(radial_errors_all)
 
 
