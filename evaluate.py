@@ -58,6 +58,15 @@ for i, image_file in enumerate(test_files):
     true_landmarks = true_landmarks_dict[image_file.name]
     radial_errors_all[i] = get_radial_errors_mm_for_image(true_landmarks, predicted_landmarks_mean)
 
-print(f'Accuracy metrics for model: {args.MODEL_NAME}, test split: {args.DATA_SPLIT}, mode: {args.MODE}, samples: {args.SAMPLES}')
+
+
+print('======================================')
+print(f'Accuracy metrics for  model: {args.MODEL_NAME}, test split: {args.DATA_SPLIT}, mode: {args.MODE}, samples: {args.SAMPLES}')
+
 metrics = get_accuracy_metrics(radial_errors_all)
 print_accuracy_metrics(metrics)
+
+print (len(radial_errors_all))
+get_radial_errors_mm_for_individual_landmarks(radial_errors_all)
+
+

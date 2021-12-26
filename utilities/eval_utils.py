@@ -117,12 +117,42 @@ def get_radial_errors_mm_for_image(true_landmarks, predicted_landmarks):
         radial_errors[lm] = radial_error_mm(true_landmarks[lm], predicted_landmarks[lm])
     return radial_errors
 
+def get_radial_errors_mm_for_individual_landmarks(radial_errors):
+    '''
+        Returns an array containing the radial error for each landmark for the image.
+    '''
+
+    print('STATISCAL VALUES ON TEST1')
+
+    for lm in range(N_LANDMARKS):
+        sdr_lm = np.array([], dtype = np.float32)
+
+        print(f"Null {sdr_lm}")
+        for errors in np.array(radial_errors):
+            sdr_lm = np.append(sdr_lm, errors[lm])
+
+        # for result in np.array(lm):
+
+        print('------------------------------------------------------------------------')
+
+        print(f"Results of L{lm + 1}")
+        metric = get_accuracy_metrics(sdr_lm)
+        print (metric)
+        print_accuracy_metrics(metric)
+
+        # print (sdr_lm)
+
+    return
+
+
 
 def get_accuracy_metrics(radial_errors_mm_all):
-    ''' 
-    This function Computes the accuracy metrics from radial errors by getting the mean and standard deviation of the 
+    '''
+    This function Computes the accuracy metrics from radial errors by getting the mean and standard deviation of the
     results obtaine. This results then compaire to the actial values and printed out.
     '''
+
+    # print(f"Count of the frame { len(radial_errors_mm_all)}" )
     mre = radial_errors_mm_all.mean()
     std = radial_errors_mm_all.std()
 

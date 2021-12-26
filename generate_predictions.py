@@ -25,8 +25,8 @@ np.random.seed(42)
 torch.manual_seed(42)
 random.seed(42)
 
-device = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('cpu')
-# device = 'cuda:0'
+# device = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('cpu')
+device = 'cpu'
 parser = argparse.ArgumentParser('')
 parser.add_argument('--MODE', required=True, type=str, choices=['ensemble'], help='Evaluation mode.')
 parser.add_argument('--MODEL_PATH', required=True, type=str, help='Path to the evaluated model(s).')
@@ -57,7 +57,7 @@ def get_predicted_landmarks(pred_heatmaps, gauss_sigma):
 
 
 def load_net(path):
-    net = torch.load(path)
+    net = torch.load(path, map_location='cpu')
     net.to(device)
     return net
 
